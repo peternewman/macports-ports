@@ -4,15 +4,15 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-widgetsnbextension
-version             3.1.4
+version             3.4.1
 revision            0
 platforms           darwin
 license             BSD
 supported_archs     noarch
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Interactive HTML widgets for Jupyter notebooks.
 long_description    ${description}
@@ -22,8 +22,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  05dcaabf0099c812094ad54128af7a1da1ba2330 \
-                    sha256  79f164a644620abbe351440a70468ac3a5b22b392afa4577c8d5f91577a2669b
+checksums           rmd160  35a2bf1002612866fee63a663451ca3183afbc23 \
+                    sha256  8b3b32f522507744096609bc9a36cc0cc83fe8b61ba16f16eebb83d7d79e2686 \
+                    size    1103598
 
 if {${name} ne ${subport}} {
     depends_build-append \

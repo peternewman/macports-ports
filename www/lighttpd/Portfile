@@ -3,7 +3,11 @@
 PortSystem                  1.0
 
 name                        lighttpd
-version                     1.4.48
+version                     1.4.50
+checksums                   rmd160  47010dd82ea2baf93de6236ea7d9c36788768591 \
+                            sha256  29378312d8887cbc14ffe8a7fadef2d5a08c7e7e1be942795142346ad95629eb \
+                            size    718480
+
 set branch                  [join [lrange [split ${version} .] 0 1] .]
 categories                  www
 platforms                   darwin
@@ -21,10 +25,6 @@ long_description            lighttpd is a secure, fast, compliant and very \
 homepage                    http://www.lighttpd.net/
 master_sites                http://download.lighttpd.net/lighttpd/releases-${branch}.x/
 use_xz                      yes
-
-checksums                   rmd160  4a16f922b283612276a40fee2b809418f9bfa733 \
-                            sha256  0f8ad5aac7529d7b948b9d7e8cd0b4a9e177309d85d6bf6516e28e6e40d74f36 \
-                            size    708396
 
 depends_build-append        port:pkgconfig
 

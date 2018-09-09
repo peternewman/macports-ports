@@ -2,25 +2,29 @@
 
 PortSystem          1.0
 PortGroup           python 1.0
-PortGroup           github 1.0
 
-github.setup        davidhalter jedi 0.11.1 v
 name                py-jedi
-revision            0
+version             0.12.1
 categories-append   devel
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         An autocompletion tool for Python that can be used for text editors.
 long_description    ${description}
 
-checksums           rmd160  5fa9e4a470bc91a8c12109bebc73ec94c9313c9a \
-                    sha256  58dddeaf04f138d7a71dc9a5c9759434e4240ccfcbfe9f713b7c8fc46577d9a8
+homepage            https://github.com/davidhalter/jedi
+master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
+
+distname            ${python.rootname}-${version}
+
+checksums           rmd160  2512abe6a9241735ed12db01fa25369fb57edb2d \
+                    sha256  b409ed0f6913a701ed474a614a3bb46e6953639033e31f769ca7581da5bd1ec1 \
+                    size    361831
 
 if {${name} ne ${subport}} {
     # setuptools is mandatory due to 'include_package_data' option

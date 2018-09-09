@@ -9,8 +9,8 @@ PortGroup cmake         1.0
 
 set llvm_version        devel
 set llvm_version_no_dot devel
-set clang_executable_version 7.0
-set lldb_executable_version 7.0.0
+set clang_executable_version 8
+set lldb_executable_version 8.0.0
 name                    llvm-${llvm_version}
 subport                 clang-${llvm_version} {}
 subport                 lldb-${llvm_version} {}
@@ -20,7 +20,7 @@ dist_subdir             llvm
 categories              lang
 platforms               darwin
 license                 NCSA
-maintainers             {jeremyhu @jeremyhu} larryv
+maintainers             {jeremyhu @jeremyhu} {larryv @larryv}
 
 if {${subport} eq "llvm-${llvm_version}"} {
     homepage            http://llvm.org/
@@ -81,7 +81,7 @@ if {${subport} eq "llvm-${llvm_version}"} {
 }
 
 fetch.type              svn
-svn.revision            321774
+svn.revision            340138
 
 depends_extract-append  port:subversion
 
@@ -133,8 +133,7 @@ if {${subport} eq "clang-${llvm_version}"} {
         1005-Default-to-fragile-ObjC-runtime-when-targeting-darwi.patch \
         1006-Fixup-libstdc-header-search-paths-for-older-versions.patch \
         1007-Fix-build-issues-pre-Lion-due-to-missing-a-strnlen-d.patch \
-        2001-tsan-Fix-builds-against-older-macOS-SDKs-that-don-t-.patch \
-        2002-xray-Define-O_CLOEXEC-for-older-SDKs-that-don-t-have.patch \
+        2001-xray-Define-O_CLOEXEC-for-older-SDKs-that-don-t-have.patch \
         3001-Fix-local-and-iterator-when-building-with-Lion-and-n.patch \
         3002-Fix-missing-long-long-math-prototypes-when-using-the.patch \
         3003-implement-atomic-using-mutex-lock_guard-for-64b-ops-.patch \
@@ -163,8 +162,6 @@ if {${subport} eq "lldb-${llvm_version}"} {
         1005-Default-to-fragile-ObjC-runtime-when-targeting-darwi.patch \
         1006-Fixup-libstdc-header-search-paths-for-older-versions.patch \
         1007-Fix-build-issues-pre-Lion-due-to-missing-a-strnlen-d.patch \
-        4001-https-llvm.org-bugs-show_bug.cgi-id-31433.patch \
-        4002-Fix-build-on-Mountain-Lion.patch \
         openmp-locations.patch
 
     # https://llvm.org/bugs/show_bug.cgi?id=25681
@@ -259,8 +256,8 @@ if {${subport} eq "llvm-${llvm_version}"} {
 }
 
 # llvm-3.5 and later requires a C++11 runtime
-# XCode 4.3's clang (318.x) fails per https://trac.macports.org/ticket/44161
-# XCode 4.5's clang (421.11.66) fails due to http://llvm.org/bugs/show_bug.cgi?id=20184
+# Xcode 4.3's clang (318.x) fails per https://trac.macports.org/ticket/44161
+# Xcode 4.5's clang (421.11.66) fails due to http://llvm.org/bugs/show_bug.cgi?id=20184
 # Xcode 4.6.3's clang (425.0.28) fails due to http://trac.macports.org/ticket/46897
 # Xcode 4.6.3's clang (425.0.28) fails due to https://llvm.org/bugs/show_bug.cgi?id=30384
 # Xcode 5.1's clang (clang-503.0.40) has codegen issues (resulting compiler crashes)
@@ -348,6 +345,10 @@ platform darwin {
 
     if {${subport} eq "clang-${llvm_version}" && ${os.major} <= 9} {
         patchfiles-append leopard-no-blocks.patch
+    }
+
+    if {${subport} eq "clang-${llvm_version}" && ${os.major} <= 14} {
+        patchfiles-append yosemite-no-clangd.patch
     }
 
     if {${os.major} < 11} {
@@ -486,9 +487,6 @@ post-destroot {
         #    set basename [string map "${destroot}${sub_prefix}/share/man/man1/ {}" ${man}]
         #    file rename ${man} ${destroot}${prefix}/share/man/man1/[string map ".1 -${suffix}.1" ${basename}]
         #}
-
-        # https://trac.macports.org/ticket/53673
-        ln -s llvm-dsymutil ${destroot}${sub_prefix}/bin/dsymutil
 
         # https://llvm.org/bugs/show_bug.cgi?id=19465
         if {[variant_isset polly]} {

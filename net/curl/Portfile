@@ -3,7 +3,7 @@
 PortSystem                      1.0
 
 name                            curl
-version                         7.59.0
+version                         7.61.1
 categories                      net www
 platforms                       darwin freebsd
 maintainers                     {ryandesign @ryandesign}
@@ -26,9 +26,9 @@ set curl_distfile               ${distfiles}
 distfiles                       ${curl_distfile}:curl
 
 checksums                       ${curl_distfile} \
-                                rmd160  e499482a354d862c82aa4ddd1f7e149f0b61cbf2 \
-                                sha256  e44eaabdf916407585bf5c7939ff1161e6242b6b015d3f2f5b758b2a330461fc \
-                                size    2318988
+                                rmd160  bb514580ff1d897b8759ce5a455fcd599f8963a0 \
+                                sha256  3d5913d6a39bd22e68e34dff697fd6e4c3c81563f580c76fca2009315cd81891 \
+                                size    2360392
 
 if {${name} eq ${subport}} {
     PortGroup                   muniversal 1.0
@@ -40,6 +40,8 @@ if {${name} eq ${subport}} {
     depends_lib                 port:libidn2 \
                                 port:libpsl \
                                 port:zlib
+
+    patchfiles                  libressl.patch
 
     configure.args              --disable-silent-rules \
                                 --enable-ipv6 \
@@ -137,16 +139,21 @@ if {${name} eq ${subport}} {
 
     variant darwinssl conflicts ssl gnutls wolfssl description {Allow secure connections using Apple OS native TLS} {
         configure.args-replace  --without-darwinssl --with-darwinssl
+        configure.args-append   --without-ca-bundle
     }
 
     variant gnutls conflicts ssl wolfssl darwinssl description {Allow secure connections using GNU TLS} {
-        depends_lib-append      port:gnutls
+        depends_lib-append      port:gnutls \
+                                path:share/curl/curl-ca-bundle.crt:curl-ca-bundle
         configure.args-replace  --without-gnutls --with-gnutls
+        configure.args-append   --with-ca-bundle=${prefix}/share/curl/curl-ca-bundle.crt
     }
 
     variant wolfssl conflicts ssl gnutls darwinssl description {Allow secure connections using wolfSSL, formerly CyaSSL} {
-        depends_lib-append      port:wolfssl
+        depends_lib-append      port:wolfssl \
+                                path:share/curl/curl-ca-bundle.crt:curl-ca-bundle
         configure.args-replace  --without-cyassl --with-cyassl
+        configure.args-append   --with-ca-bundle=${prefix}/share/curl/curl-ca-bundle.crt
     }
 
     variant gss description {Support the Generic Security Service API} {
@@ -201,7 +208,7 @@ if {${name} eq ${subport}} {
 }
 
 subport curl-ca-bundle {
-    revision                    0
+    revision                    2
     categories                  net
     license                     {MPL-2 LGPL-2.1+}
     supported_archs             noarch
@@ -221,8 +228,8 @@ subport curl-ca-bundle {
     set certdata_file           certdata.txt
     # The output of the Tcl command "clock seconds" (you can run it in tclsh) when
     # the certdata.txt file in the port was last updated.
-    set certdata_updated        1516361900
-    set certdata_version        92dcb99abd05
+    set certdata_updated        1536300000
+    set certdata_version        7323a50a7eed
     set certdata_extract_cmd    bzip2
     set certdata_extract_suffix .tar.bz2
     set certdata_distfile       certdata-${certdata_version}${certdata_extract_suffix}
@@ -238,9 +245,9 @@ subport curl-ca-bundle {
     distfiles-append            ${certdata_distfile}:certdata
 
     checksums-append            ${certdata_distfile} \
-                                rmd160  534aab36b62694cac4b7b10c6f5acf9ed9803354 \
-                                sha256  f8eb21750d06183174abed84da8e9c99f18a0c785775ff3d0a7762d36d8fc74e \
-                                size    194520
+                                rmd160  228b2d1456549db9fb29de1d6e915c19782470d8 \
+                                sha256  feb081d7307a3e99a905f14439ff5e886b0e36a642abdb44375c0ebb7561a022 \
+                                size    191377
 
     extract.only                ${curl_distfile}
     set curl_mk_ca_bundle_files "${worksrcdir}/Makefile ${worksrcdir}/lib/mk-ca-bundle.pl"

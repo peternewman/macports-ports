@@ -3,8 +3,8 @@
 PortSystem          1.0
 PortGroup           bitbucket 1.0
 
-set emacs_version   25.3
-set emacs_mac_ver   6.8
+set emacs_version   26.1
+set emacs_mac_ver   7.1
 
 bitbucket.setup     mituharu emacs-mac emacs-${emacs_version}-mac-${emacs_mac_ver}
 name                emacs-mac-app
@@ -15,14 +15,15 @@ maintainers         nomaintainer
 
 description         Emacs Mac port
 
-long_description    ${name} is "Mac port" addition to GNU Emacs 25. This provides a native \
-                    GUI support for Mac OS X 10.4 - 10.12.
+long_description    ${name} is "Mac port" addition to GNU Emacs ${emacs_version}. \
+                    This provides a native GUI support for Mac OS X 10.6 - macOS 10.13.
 
 platforms           darwin
 license             GPL-3+
 
-checksums           rmd160  71efdb98ef2ec8365781cdb9f87ad01b36925486 \
-                    sha256  18b4fcfbb49bb8b2ce88907dfbb76d5969595e1ba44451847a1acfa01189bbad
+checksums           rmd160  d4dcd1b65869690b0272f036470339cf42443e43 \
+                    sha256  5d6607b4321b4030e53538dcead66315ad63f0ae6bc1ce29f5797e1c952b67a2 \
+                    size    41586056
 
 depends_lib         port:ncurses \
                     port:libxml2 \
@@ -39,11 +40,17 @@ universal_variant   no
 
 use_autoreconf      yes
 autoreconf.cmd      ./autogen.sh
+autoreconf.args     all
 
-depends_build       port:autoconf port:automake port:libtool port:texinfo
+depends_build       port:autoconf \
+                    port:automake \
+                    port:libtool \
+                    port:pkgconfig \
+                    port:texinfo
 
 configure.args      --with-mac \
                     --enable-mac-app=${applications_dir} \
+                    --with-modules \
                     --without-rsvg \
                     --without-imagemagick
 

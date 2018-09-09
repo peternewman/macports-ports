@@ -5,15 +5,15 @@ PortGroup           python 1.0
 
 name                py-sqlalchemy
 set realname        SQLAlchemy
-version             1.2.5
+version             1.2.11
 revision            0
 categories-append   databases
 platforms           darwin
 license             MIT
 
-python.versions     26 27 33 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Python SQL ORM
 
@@ -26,8 +26,9 @@ master_sites        pypi:[string index ${realname} 0]/${realname}
 
 distname            ${realname}-${version}
 
-checksums           rmd160  0b3695c170ddcc9a987fe51e64bb0101e7f0dfaf \
-                    sha256  249000654107a420a40200f1e0b555a79dfd4eff235b2ff60bc77714bd045f2d
+checksums           rmd160  9abdf8178b01b8b9c71fef612a2f6e8f8ebc5058 \
+                    sha256  ef6569ad403520ee13e180e1bfd6ed71a0254192a934ec1dbd3dbf48f4aa9524 \
+                    size    5611782
 
 if {${name} ne ${subport}} {
     depends_build-append \

@@ -2,14 +2,18 @@
 
 PortSystem          1.0
 PortGroup           cmake 1.1
+PortGroup           compiler_blacklist_versions 1.0
 PortGroup           github 1.0
 
-github.setup        fletcher MultiMarkdown-6 6.3.0
+github.setup        fletcher MultiMarkdown-6 6.4.0
+checksums           rmd160  8f2ba7399afbad73f208704f13e0d582df6b0708 \
+                    sha256  ed34ce1febe1f785187b012c8a5a4dd982600fa745cd80a12f1c3d51f1ea8580 \
+                    size    3208024
+
 name                multimarkdown
 categories          textproc
 license             MIT
-maintainers         nomaintainer
-installs_libs       no
+maintainers         {ryandesign @ryandesign} openmaintainer
 
 description         turn minimally marked-up plain text into well \
                     formatted documents
@@ -28,27 +32,26 @@ long_description    MultiMarkdown, or MMD, is a tool to help turn \
 homepage            http://fletcherpenney.net/multimarkdown/
 platforms           darwin
 
-checksums           rmd160  a404166520c54ad7b99cacc6b4d9b744b336861e \
-                    sha256  48c21bea3ad8db5033c4a56cc9230bb22586d4cd732c151a53cd43aca2b4bc48
-
 depends_lib-append  port:curl
 
+patchfiles-append   AppleClang.patch
+patchfiles-append   PATH.patch
+patchfiles-append   which.patch
+
+# blacklist compilers that do not support C11
+compiler.blacklist  *gcc-3.* *gcc-4.* {clang < 300}
+
 configure.args-append \
+                    -DCMAKE_BUILD_WITH_INSTALL_RPATH:BOOL=OFF \
                     -DSHAREDBUILD=1
 
+# https://github.com/fletcher/MultiMarkdown-6/issues/145
 configure.ldflags-append \
                     -lcurl
-
-# For some reason, this sets mmacosx-version-min to 10.4 which causes a linking
-# error: ld: -rpath can only be used when targeting Mac OS X 10.5 or later
-cmake.install_rpath
-
-post-patch {
-    reinplace -W ${worksrcpath} "s,Clang,AppleClang,g" CMakeLists.txt
-}
 
 test.run            yes
 
 pre-destroot {
+    # https://github.com/fletcher/MultiMarkdown-6/issues/147
     copy ${cmake.build_dir}/version.h ${worksrcpath}/Sources/libMultiMarkdown/include
 }

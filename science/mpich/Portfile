@@ -14,8 +14,8 @@ revision            0
 license             BSD
 categories          science parallel net
 platforms           darwin
-maintainers         eborisch \
-                    sean \
+maintainers         {eborisch @eborisch} \
+                    {sean @seanfarley} \
                     openmaintainer
 
 description         Message Passing Interface (MPI) Library
@@ -74,11 +74,10 @@ if {[string first "-devel" $subport] > 0} {
 # As MPICH creates compiler wrappers, there are lots of
 # variants for what compiler the user would like to wrap.
 
-# Sup-ports names and corresponding configure.compiler value
+# Subport names and corresponding configure.compiler value
 array set clist {
     clang   {clang}
     clang37 {macports-clang-3.7}
-    clang38 {macports-clang-3.8}
     clang39 {macports-clang-3.9}
     clang40 {macports-clang-4.0}
     clang50 {macports-clang-5.0}
@@ -285,7 +284,7 @@ if {${subport} != ${name}} {
 
     if { [string first gcc $cname] == 0 } {
         append long_description " AND FORTRAN COMPILERS"
-        revision                4
+        revision                5
         configure.args-delete   --disable-fortran
         configure.args-append   --enable-fortran
         select.file             ${filespath}/${name}-${cname}-fortran
@@ -315,10 +314,10 @@ if {${subport} != ${name}} {
         }
     } else {
         append long_description " (AND THE FORTRAN COMPILER SELECTED BY THE VARIANT, IF ANY)"
-        revision                3
+        revision                4
 
         compilers.choose   fc f77 f90
-        compilers.setup    -dragonegg default_fortran
+        compilers.setup    default_fortran
 
         if {[fortran_variant_isset]} {
             configure.args-delete   --disable-fortran
@@ -389,9 +388,9 @@ pre-built packages for ${subport} by running:
 } else {
     depends_lib-append      port:$name-default
     distfiles
+    patchfiles
     supported_archs         noarch
     use_configure           no
-    patch {}
     build {}
     destroot {
         set docdir          ${destroot}${prefix}/share/doc/${name}

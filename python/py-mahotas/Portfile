@@ -9,9 +9,9 @@ revision            0
 platforms           darwin
 license             MIT
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Set of functions for image processing and computer vision in Python
 long_description    ${description}

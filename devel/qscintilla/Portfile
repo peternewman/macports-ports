@@ -5,10 +5,10 @@ PortGroup           cxx11 1.1
 
 name                qscintilla
 
-version             2.10.3
-checksums           rmd160 78e3d54c9caeaff371f233a1abfc87949fd8a0de \
-                    sha256 d2657a68e7699d37209ff97db965de7c67884d99b33066d0ba457e6f39b581e7 \
-                    size 2721287
+version             2.10.7
+checksums           rmd160 163f7e78b3ee0ae582ec96d5707de20a3025b3fc \
+                    sha256 670458de71dd4205e92d8f3b7bad9f667afece925703cde9df6d04bc23331a1a \
+                    size   2734778
 
 categories          devel
 license             GPL-3
@@ -94,12 +94,10 @@ foreach qt_major {4 5} {
     subport py-${name}-qt${qt_major} {
         categories-append python
         use_configure no
-        fetch {}
-        checksum {}
-        extract {}
+        distfiles
+        patchfiles
         supported_archs noarch
         depends_lib port:py27-qscintilla-qt${qt_major}
-        patch {}
         build {}
         destroot {
             xinstall -d -m 755 ${destroot}${prefix}/share/doc/${subport}
@@ -107,7 +105,7 @@ foreach qt_major {4 5} {
         }
     }
 
-    set python_versions {27 34 35 36}
+    set python_versions {27 34 35 36 37}
 
     foreach pver ${python_versions} {
         subport py${pver}-${name}-qt${qt_major} {
@@ -148,15 +146,13 @@ foreach qt_major {4 5} {
             configure.pre_args
 
             configure.cmd       ${configure.python} configure.py
-            configure.args-append                          \
+            configure.args-append --verbose                \
                 --pyqt=PyQt${qt_major}                     \
                 --sip=${prefix}/bin/sip-${python_ver_dot}  \
-                --qmake=${qt_qmake_cmd}
+                --qmake=${qt_qmake_cmd}                    \
+                --no-dist-info
 
             if {${qt_major} eq 4} {
-                configure.args-append \
-                    --pyqt-sipdir=${prefix}/share/py${pver}-sip/PyQt4
-
                 configure.args-append \
                     --spec=${qt_qmake_spec}
             } else {
@@ -178,12 +174,10 @@ foreach qt_major {4 5} {
 if {${subport} eq ${name}} {
     revision 1
 
+    distfiles
+    patchfiles
     use_configure no
-    fetch {}
-    checksum {}
-    extract {}
     supported_archs noarch
-    patch {}
     build {}
     destroot {
         xinstall -d -m 755 ${destroot}${prefix}/share/doc/${subport}

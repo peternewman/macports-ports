@@ -1,6 +1,6 @@
---- src/mkoctfile.in.cc.orig	2017-11-08 15:10:37.000000000 -0700
-+++ src/mkoctfile.in.cc	2017-11-09 06:09:16.000000000 -0700
-@@ -630,6 +630,19 @@
+--- src/mkoctfile.in.cc.orig	2016-11-13 08:16:10.000000000 -0700
++++ src/mkoctfile.in.cc	2016-11-26 14:03:33.000000000 -0700
+@@ -814,6 +814,19 @@
          {
            pass_on_options += (' ' + arg);
          }
@@ -19,4 +19,4 @@
 +#endif
        else if (starts_with (arg, "-"))
          {
-           // Pass through any unrecognized options
+           // Pass through any unrecognized options.

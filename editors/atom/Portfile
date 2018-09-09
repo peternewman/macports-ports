@@ -3,7 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        atom atom 1.24.1 v
+github.setup        atom atom 1.30.0 v
 categories          editors
 platforms           darwin
 license             MIT
@@ -14,8 +14,9 @@ long_description    ${description}
 
 homepage            https://atom.io
 
-checksums           rmd160  8aa42f9fc8ebcbda05b6cb490195166e4af5438d \
-                    sha256  00ba811db90f0db0fa094625aaa445b3f17d53c4515d2ab44f09c452dc4c28b3
+checksums           rmd160  8709874aee1d466e5456e5111f2f11f8ec57fe6c \
+                    sha256  09554ea124afb0867adcbde8f9fe2bbffc5798624d64899ce105499045e4adeb \
+                    size    11417767
 
 patchfiles          patch-install-prefix.diff
 

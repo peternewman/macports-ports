@@ -7,10 +7,10 @@ PortGroup           compiler_blacklist_versions 1.0
 PortGroup           active_variants 1.1
 PortGroup           github 1.0
 
-github.setup        FFmpeg FFmpeg 474194a8d0f2812802c275f6ed4f0fd5cd58ae0e
+github.setup        FFmpeg FFmpeg 50df4c958b641e3ee3114e1eb659a151d34d2ac1
 name                ffmpeg-devel
 conflicts           ffmpeg
-version             20180213
+version             20180523
 license             LGPL-2.1+
 categories          multimedia
 maintainers         {devans @dbevans} {jeremyhu @jeremyhu} openmaintainer
@@ -49,9 +49,9 @@ long_description    FFmpeg is a complete solution to record, convert and \
 platforms           darwin
 homepage            http://www.ffmpeg.org/
 
-checksums           rmd160  cdb8d288786d42ac648d163a511e3b46a5efc73d \
-                    sha256  0f2ea246b7bea3018ec9de39a538c0bdc9dadc5cd9d94ec22b9b082affdd46e3 \
-                    size    12312808
+checksums           rmd160  34a48e5b8219929ab506139ffc31db834bfbbe20 \
+                    sha256  34a960286e979d0e8ea7ab54e5b34992c396cced22fb28941fef48be27ed57f0 \
+                    size    12554797
 
 depends_build       port:pkgconfig \
                     port:gmake \
@@ -82,7 +82,8 @@ depends_lib         port:lame \
                     port:xz \
                     port:zlib
 
-patchfiles          patch-libavcodec-audiotoolboxenc.c.diff
+patchfiles          patch-libavcodec-audiotoolboxenc.c.diff \
+                    patch-libavformat-mxfenc.c-parens-around-initializer-df3d962d2e736c0748b91a3c8c701d7cb96154a8.diff
 
 #
 # enable auto configure of asm optimizations
@@ -162,7 +163,7 @@ platform darwin {
 
     # as of 1.6.0 libvpx only supports darwin 10 or later
     if {${os.major} < 10} {
-        depends_build-delete port:libvpx
+        depends_lib-delete port:libvpx
         configure.args-replace --enable-libvpx --disable-libvpx
     }
 

@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                gnome-internet-radio-locator
-version             1.0.4
+version             1.4.0
 set branch          [join [lrange [split $version .] 0 1] .]
 categories          gnome
 platforms           darwin
@@ -12,14 +12,14 @@ maintainers         {gnome.org:ole @oleaamot} \
                     openmaintainer
 description         GNOME Internet Radio Locator
 long_description    Locate Internet Radio Stations
-homepage            https://people.gnome.org/~ole/gnome-internet-radio-locator
+homepage            https://www.gnome.org/~ole/gnome-internet-radio-locator
 master_sites        gnome:sources/${name}/${branch}/
 
 use_xz              yes
 
-checksums           rmd160  66636e5da19d8e0767dcd80282f8aadab413554d \
-                    sha256  acf24dd603305e0da3ff92cbf430b93fdaf25d5562bf8df9aee1201c775b22cf \
-                    size    532116
+checksums           rmd160  d8e90b9346816bff181a56be72d22643ccd6d0d2 \
+                    sha256  12859a60086dedcfd9a49e3f5f947e11394ddbfe914a4ee8cc0a86492b4e46e7 \
+                    size    540400
 
 depends_build       port:autoconf \
                     port:automake \
@@ -45,7 +45,8 @@ depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2 \
                     port:libxml2 \
                     port:zlib
 
-depends_run         port:gstreamer1-gst-plugins-bad \
+depends_run         port:adwaita-icon-theme \
+                    port:gstreamer1-gst-plugins-bad \
                     port:gstreamer1-gst-plugins-good \
                     port:gstreamer1-gst-plugins-ugly
 

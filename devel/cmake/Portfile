@@ -31,16 +31,16 @@ dist_subdir         cmake
 
 subport cmake-devel {}
 
-set branch          3.10
+set branch          3.12
 
 if {${subport} eq ${name}} {
 
     # release
 
-    version         ${branch}.3
-    checksums       rmd160 3fba4057c079fe3ce3830ac1399eb5cbce95afa5 \
-                    sha256 0c3a1dcf0be03e40cf4f341dda79c96ffb6c35ae35f2f911845b72dab3559cf8 \
-                    size   7825559
+    version         ${branch}.2
+    checksums       rmd160 cc9e81815a6edfbd5e08d6a4f25bcf3488009853 \
+                    sha256 0f97485799e51a7070cc11494f3e02349b0fc3a24cc12b082e737bf67a0581a4 \
+                    size   8388114
 
     master_sites    ${homepage}/files/v${branch}/
     conflicts       cmake-devel
@@ -50,25 +50,25 @@ if {${subport} eq ${name}} {
 
     # release-only patches
     patchfiles-append \
-        patch-Modules-FindQt4.cmake.release.diff \
-        patch-Modules-FindFreetype.cmake.release.diff \
         patch-Modules-noArchCheck.release.diff \
         patch-CMakeFindFrameworks.cmake.release.diff \
-        patch-Source_CMakeVersionCompute.cmake.release.diff
+        patch-Source_CMakeVersionCompute.cmake.release.diff \
+        patch-Source_CMakeLists.txt.release.diff \
+        patch-Source_Modules_FindLibUV.cmake.release.diff
 
     livecheck.type  regex
     livecheck.regex ${name}-(\[0-9.\]+)${extract.suffix}
-    livecheck.url   [lindex $master_sites 0]
+    livecheck.url   https://cmake.org/files/LatestRelease/
 
 } else {
 
     # devel
 
-    version         20180316
-    set commit      b3e668ea25d35a04adc41e17cfb4c8ab7a97a7d9
-    checksums       rmd160 e40a4d69c1a055b8f03cc5b7c48bdec65a36afcf \
-                    sha256 adbbd56754644df1cdb037e1d99f6e694c541662cbf2c5340eb5d0bb84bab676 \
-                    size   6246932
+    version         20180907
+    set commit      424d86be5b332d2f5b85dfd2ba2900430f7e02c3
+    checksums       rmd160 fc32bdee0ed841ae7cf8c844c646eafaf1d9a260 \
+                    sha256 bc0b9afb456495539fdd8a65df4651a6db594bc726b73b6cf88a3c56bd5dc164 \
+                    size   6440498
 
     use_bzip2       yes
     master_sites    https://gitlab.kitware.com/cmake/cmake/repository/archive${extract.suffix}?ref=${commit}&
@@ -84,14 +84,14 @@ if {${subport} eq ${name}} {
 
     # devel-only patches
     patchfiles-append \
-        patch-Modules-FindQt4.cmake.devel.diff \
         patch-Modules-noArchCheck.devel.diff \
         patch-CMakeFindFrameworks.cmake.devel.diff \
         patch-Source_CMakeVersionCompute.cmake.devel.diff \
-        patch-Source_CMakeLists.txt.diff
+        patch-Source_CMakeLists.txt.devel.diff \
+        patch-Source_Modules_FindLibUV.cmake.devel.diff
 
     livecheck.type  regex
-    livecheck.regex /cmake/cmake/commit/(\[0-9a-g\]+)
+    livecheck.regex data-clipboard-text=\"(\[0-9a-g\]+)\"
     livecheck.version ${commit}
     livecheck.url   https://gitlab.kitware.com/cmake/cmake/tree/master
 
@@ -119,8 +119,8 @@ configure.env-append \
 if {${os.platform} eq "darwin" && ${os.major} == 11 && ${configure.cxx_stdlib} eq "libc++"} {
     compiler.whitelist macports-clang-3.4
 }
-# Clang 3.8 and later require cmake; avoid circular dependency.
-compiler.blacklist-append macports-clang-3.8 macports-clang-3.9 macports-clang-4.0 macports-clang-5.0
+# Clang 3.9 and later require cmake; avoid circular dependency.
+compiler.blacklist-append macports-clang-3.9 macports-clang-4.0 macports-clang-5.0 macports-clang-6.0
 
 platform darwin {
     configure.env-append \

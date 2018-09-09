@@ -4,7 +4,7 @@ PortSystem              1.0
 PortGroup               compiler_blacklist_versions 1.0
 
 name                    nodejs6
-version                 6.13.1
+version                 6.14.4
 
 categories              devel net
 platforms               darwin
@@ -18,14 +18,15 @@ long_description        Node's goal is to provide an easy way to build scalable 
                         Machine or Python's Twisted. Node takes the event model a bit further-it \
                         presents the event loop as a language construct instead of as a library.
 
-conflicts               nodejs4 nodejs5 nodejs7 nodejs8 nodejs9
+conflicts               nodejs4 nodejs5 nodejs7 nodejs8 nodejs9 nodejs10
 
 homepage                https://nodejs.org/
 master_sites            ${homepage}dist/v${version}
 use_xz                  yes
 
-checksums               rmd160  a9f11f5819bd603e46641fc5efa207f1cc05dcaf \
-                        sha256  c437350b476503a0f5605a5cc08bc41fe3bdb8ec100939ec7ea6600e44d56a46
+checksums               rmd160  500797a0b9155d4c8902a10f18ffc947e6c85586 \
+                        sha256  9a4bfc99787f8bdb07d5ae8b1f00ec3757e7b09c99d11f0e8a5e9a16a134ec0f \
+                        size    15842824
 
 distname                node-v${version}
 

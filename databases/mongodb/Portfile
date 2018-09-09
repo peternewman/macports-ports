@@ -3,7 +3,6 @@
 PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           conflicts_build 1.0
-PortGroup           cxx11 1.0
 PortGroup           xcodeversion 1.0
 
 # When updating mongodb to a new version, update mongo-tools to the
@@ -11,7 +10,7 @@ PortGroup           xcodeversion 1.0
 
 name                mongodb
 epoch               1
-version             3.6.3
+version             3.6.6
 license             {AGPL-3 OpenSSLException}
 categories          databases
 maintainers         {ryandesign @ryandesign}
@@ -25,9 +24,9 @@ homepage            https://www.mongodb.com/community
 master_sites        https://fastdl.mongodb.org/src
 distname            ${name}-src-r${version}
 
-checksums           rmd160  39a46564905c44d46554fddab386b0e4baf744c9 \
-                    sha256  df2d5c05c569ca93eacf88b68e0feb3ff52ffbfc8ccd8736ff20d86850db207c \
-                    size    40093607
+checksums           rmd160  b19628422266de7d482fb20cbe93d74cc1fe27d2 \
+                    sha256  e3b9e30941f314d0b1d89f85af3b1258aa2f72a9df21e44cf4aa08faf262e406 \
+                    size    40391572
 
 depends_build       port:scons \
                     port:py27-yaml \
@@ -49,6 +48,7 @@ use_configure       no
 # other ports to use; and the only C++ libraries mongodb uses (boost,
 # pcre, snappy) are bundled.
 configure.cxx_stdlib libc++
+PortGroup           cxx11 1.1
 
 compiler.blacklist-append *gcc* {clang < 802.0.42} macports-clang-3.3 macports-clang-3.4 macports-clang-3.7
 

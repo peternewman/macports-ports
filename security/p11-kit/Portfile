@@ -3,8 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        p11-glue p11-kit 0.23.10
-revision            1
+github.setup        p11-glue p11-kit 0.23.14
 license             Permissive
 description         Provides a way to load and enumerate PKCS#11 modules and a standard \
                     configuration setup for installing PKCS#11 modules in such a way that \
@@ -15,8 +14,9 @@ categories          security
 platforms           darwin
 
 github.tarball_from releases
-checksums           rmd160  5c87af0f7a088b58789859f42a95b9e2d038c5bb \
-                    sha256  f9212a3f225ef543e13fae9945527d66c0cbb67246320035dd94fab2bce5ae43
+checksums           rmd160  795ea86b15fbcb6865cf65c146c6f54b5a27d1cd \
+                    sha256  1cb9fa6d237539f25f62f4c3d4ec71a1c8e0772957ec45ec5af92134129e0d70 \
+                    size    1266595
 
 depends_build       port:pkgconfig
 
@@ -29,5 +29,11 @@ depends_run         path:share/curl/curl-ca-bundle.crt:curl-ca-bundle
 
 patchfiles          patch-common-compat.c.diff
 
-configure.args      --with-trust-paths=${prefix}/share/curl/curl-ca-bundle.crt:${prefix}/etc/openssl \
-                    --disable-silent-rules
+configure.args      --disable-doc \
+                    --disable-silent-rules \
+                    --with-trust-paths=${prefix}/share/curl/curl-ca-bundle.crt:${prefix}/etc/openssl
+
+variant doc description {Build man pages and documentation} {
+    depends_build-append    port:gtk-doc
+    configure.args-replace  --disable-doc --enable-doc
+}

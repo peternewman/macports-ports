@@ -1,10 +1,11 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
-PortGroup           cxx11 1.0
+PortGroup           compiler_blacklist_versions 1.0
+PortGroup           cxx11 1.1
 
 name                dar
-version             2.5.14
+version             2.5.16
 categories          archivers
 platforms           darwin
 maintainers         {ryandesign @ryandesign} openmaintainer
@@ -18,9 +19,9 @@ long_description    dar is a shell command that backs up directory trees \
 homepage            http://dar.sourceforge.net/
 master_sites        sourceforge:project/dar/dar/${version}
 
-checksums           rmd160  cb2a77e822f60d287fa49de56ccd679dc3da3c6c \
-                    sha256  fae049166b2b2a4f9db4fe3e4d135a520a5b93ffeb4089428b60f8c54603c5c5 \
-                    size    1904398
+checksums           rmd160  d033c8875dd75e5c7b9d0798a9b1ea8aa409a46f \
+                    sha256  e957c97101a17dc91dca00078457f225d2fa375d0db0ead7a64035378d4fc33b \
+                    size    1905306
 
 depends_build       port:doxygen
 
@@ -32,7 +33,7 @@ depends_lib         port:bzip2 \
                     path:lib/libssl.dylib:openssl \
                     port:zlib
 
-# To be removed when updating to dar 2.5.15.
-patchfiles-append   syncfs.patch
+# error: unknown type name 'thread_local'
+compiler.blacklist-append {clang < 800}
 
 universal_variant   no

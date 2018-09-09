@@ -3,7 +3,8 @@
 PortSystem          1.0
 
 name                xcircuit-devel
-version             3.10.8
+version             3.10.10
+revision            1
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          x11 cad
 platforms           darwin
@@ -30,13 +31,14 @@ dist_subdir         xcircuit
 distname            xcircuit-${version}
 extract.suffix      .tgz
 
-checksums           rmd160  3e7e7f7e6b846e83bda39486df100b0c1e2f9489 \
-                    sha256  ada9b2f073ee75da649ccd7534335ed430b09d36065e9512810d7d0b2c9ec9d9 \
-                    size    1612060
+checksums           rmd160  adf5b80bf5fa129fe89c0c32696992208e206e74 \
+                    sha256  eaa6c15ec18067f6628b50835a3169530b798396d02a0ac9c0f24c4b33f3a539 \
+                    size    1612833
 
-depends_build       path:bin/pkg-config:pkgconfig \
-                    port:autoconf \
-                    port:automake
+depends_build       port:autoconf \
+                    port:automake \
+                    port:pkgconfig
+
 depends_lib         path:lib/pkgconfig/cairo.pc:cairo \
                     port:ghostscript \
                     port:tk \

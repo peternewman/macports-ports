@@ -30,11 +30,11 @@ if {${subport} eq ${name}} {
 
     # devel
 
-    github.setup    open-source-parsers jsoncpp af2598cdd384a1ae0bf5f20a5d1bcd449634bf35
-    version         20180306
-    checksums       rmd160 199870bca88ddc6f87baf3dff19b8777bb228e00 \
-                    sha256 567d15d172ba5de90ba5d0922302f70c61e62d6474a79837e856f5d973eb3f79 \
-                    size   200879
+    github.setup    open-source-parsers jsoncpp 2baad4923e6d9a7e09982cfa4b1c5fd0b67ebd87
+    version         20180714
+    checksums       rmd160 e37d56184f4c186aa62c70f46e65fd4be073543a \
+                    sha256 d628d88cb5fb3be2fff62ac78d16fabc11609a4cb1c88f8db5e873beb1e5133c \
+                    size   202228
 
     conflicts       jsoncpp
     long_description ${description}: \

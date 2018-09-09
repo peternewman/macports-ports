@@ -17,25 +17,39 @@ long_description    \
 
 if {${name} eq ${subport}} {
 
-    github.setup        direnv direnv 2.15.2 v
-    checksums           rmd160 7292abf53ddcb9de32dc8cd59016fad23f7a5a6f \
-                        sha256 89a91dd87f9744145636f4089ea34f27e69c436271e83922c795716e1584b6c7
+    github.setup        direnv direnv 2.17.0 v
+    checksums           rmd160 58a963b1af1de56536708d354abc78824e54e811 \
+                        sha256 74632f5c46faf1f57239c755b3783a7ce8b75d6808f1c348482ab5995083aee2 \
+                        size   92933
 
     conflicts           direnv-devel
+
+    # fix PREFIX and DESTDIR variables to match what 'port' needs
+
+    patchfiles-append       patch-Makefile.diff
 
 }
 
 subport direnv-devel {
 
-    github.setup        direnv direnv 7906e46534cbeef60a586d217a3f028096287c71
-    version             20180302
-    checksums           rmd160 fc0cfb94eab55b918e0658cd9c67728cb23104da \
-                        sha256 62303c0f6d17f59d55147b69330b4712e5e6841e1681a157773eab6c58c53ab3 \
-                        size    91113
+    github.setup        direnv direnv ead4788db4255b32a663fdfdd2a9376198ee3901
+    version             20180820
+    checksums           rmd160 0df3c4a4a7c2b3041a11bace18c08e9d0fd101fa \
+                        sha256 781fd5a5b76c306fcf61b031f4bcdb79a963e8e43d0368fc141b396396d2eaa0 \
+                        size   94400
 
     conflicts           direnv
     long_description ${long_description}: \
         This port follows the GIT master version of ${name}, which is typically updated every few days to weeks.
+
+    # devel dependency
+    # add to both at next release
+
+    depends_build-append port:shfmt
+
+    # fix PREFIX and DESTDIR variables to match what 'port' needs
+
+    patchfiles-append       patch-GNUmakefile.diff
 
 }
 
@@ -46,10 +60,6 @@ homepage                http://direnv.net/
 # builds with 'go' internally
 
 depends_lib-append      port:go
-
-# fix PREFIX and DESTDIR variables to match what 'port' needs
-
-patchfiles-append       patch-Makefile.diff
 
 # fix importing of locally-provided external projects
 

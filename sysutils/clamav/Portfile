@@ -2,7 +2,7 @@ PortSystem 1.0
 PortGroup muniversal 1.0
 
 name			clamav
-version		 	0.99.4
+version		 	0.100.1
 categories	  	sysutils
 maintainers	 	{geeklair.net:dluke @danielluke}
 description	 	clamav antivirus software
@@ -14,8 +14,9 @@ long_description	Clam AntiVirus is a GPL anti-virus toolkit for UNIX. The \
 
 homepage		http://www.clamav.net
 master_sites		http://www.clamav.net/downloads/production
-checksums	rmd160	5925f4727c98d328f7f12267bb1af11fc368f9d8 \
-		sha256	d72ac3273bde8d2e5e28ec9978373ee3ab4529fd868bc3fc4d2d2671228f2461
+checksums	rmd160	cd10ede75b93508aca18269736d1f51e9d769374 \
+		sha256	84e026655152247de7237184ee13003701c40be030dd68e0316111049f58a59f \
+		size	16154415
 
 platforms	   	darwin
 

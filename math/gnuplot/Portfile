@@ -6,7 +6,7 @@ PortGroup           xcodeversion    1.0
 PortGroup           wxWidgets       1.0
 
 name                gnuplot
-version             5.2.2
+version             5.2.4
 categories          math science
 # the license has some inconvenient requirements that we're not meeting
 # to be allowed to distribute binaries
@@ -29,10 +29,11 @@ homepage            http://gnuplot.sourceforge.net/
 master_sites        sourceforge:project/gnuplot/gnuplot/${version}
 dist_subdir         ${name}/${version}
 
-checksums           rmd160  a7cfaea2a11f34ab1a3a780c5d7522aed6efed80 \
-                    sha256  a416d22f02bdf3873ef82c5eb7f8e94146795811ef808e12b035ada88ef7b1a1
+checksums           rmd160  fcf8e239cb40b9bd0e4bf19b3da398e81b4abec5 \
+                    sha256  1515f000bd373aaa53b16183f274189d4f5e0ae47d22f434857933d16a4770cb \
+                    size    5292321
 
-depends_build       path:bin/pkg-config:pkgconfig
+depends_build       port:pkgconfig
 
 depends_lib         port:expat \
                     port:fontconfig \

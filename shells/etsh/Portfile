@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                etsh
-version             5.0.2
+version             5.2.0
 categories          shells
 license             BSD BSD-old
 maintainers         nomaintainer
@@ -17,8 +17,9 @@ platforms           darwin
 homepage            https://etsh.io/
 master_sites        ${homepage}src/
 
-checksums           rmd160  2b9e59d92a3a441c6526150c2f3769bf9420ec08 \
-                    sha256  00e6e1453aad73aa632fb68ef7f249aa88eed434f8702c48ea25b2569da35ce5
+checksums           rmd160  28a90c52738af122e88adaf3255fdb05aa17acfc \
+                    sha256  af561b7fa2f9eb872e2e5a71a8f8e5479f8bb5829a8ec1534f0240475c3dfe5e \
+                    size    143583
 
 configure.pre_args
 

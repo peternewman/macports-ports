@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-libvirt
-version             3.4.0
+version             4.5.0
 platforms           darwin
 license             MIT
 maintainers         {danchr @danchr} openmaintainer
@@ -20,8 +20,9 @@ homepage            http://www.libvirt.org/
 distname            libvirt-python-${version}
 master_sites        ${homepage}sources/python
 
-checksums           rmd160  894dbdb9d3fcb1259287639156c1eed192672800 \
-                    sha256  afa77781f518988f164dd5f99d1844034ca807a8e731e07cbae18474d250b511
+checksums           rmd160  672c83e2dca72e4384be32df21f67aa6c42d50a0 \
+                    sha256  ef35ed6bc24d76563b1ba9b068ef5a048016726dba62a9d057fe6dfbea6b0f60 \
+                    size    190016
 
 python.default_version  27
 python.versions     27 34 35 36

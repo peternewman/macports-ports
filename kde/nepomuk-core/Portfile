@@ -5,9 +5,9 @@ PortGroup           kde4   1.1
 
 name                nepomuk-core
 version             4.14.3
-revision            7
+revision            9
 categories          kde kde4
-maintainers         nicos openmaintainer
+maintainers         {nicos @NicosPavlov} openmaintainer
 license             GPL-2+ LGPL-2.1+
 description         Nepomuk-core contains the Semantik Desktop core libraries.
 long_description    ${description}  This includes central services like file \
@@ -28,13 +28,13 @@ depends_lib-append  port:exiv2 \
                     port:taglib \
                     port:kdelibs4 \
                     port:ebook-tools \
-                    port:poppler-qt4-mac \
                     port:mobipocket \
                     port:kfilemetadata
 
 patchfiles-append   patch-cmake-baloo.diff \
                     patch-nepomuk-make-daemons-agents.diff \
-                    patch-CMakeLists-visibility.diff
+                    patch-CMakeLists-visibility.diff \
+                    patch-CMakeLists.diff
 
 pre-activate {
     #Deactivate hack for when nepomuk-core was splitted from kde4-runtime

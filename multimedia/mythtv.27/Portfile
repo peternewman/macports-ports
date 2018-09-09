@@ -5,23 +5,26 @@ PortGroup           github 1.0
 PortGroup           qt4 1.0
 PortGroup           compiler_blacklist_versions 1.0
 
-set shorthash       6fb800d9
-# set fullhash      6fb800d9c4866d25fefd082e0bd408bd0fd624c2
+set shorthash       3c7582e9
+# set fullhash      3c7582e973dbf8174283898ebfcf190acbfb61f9
 set majorversion    .27
-set minorversion    .6
-set lastcommit      20170113
+set minorversion    .7
+set lastcommit      20180201
+set corerev         1
+set pluginsrev      1
 github.setup        MythTV mythtv ${shorthash}
 
 name                mythtv${majorversion}
-checksums           rmd160  74234449354fbdba93316d7af4f73a0b8c8fdde8 \
-                    sha256  8189f1860615de3b99bbb03ea2a79e9d179cddef4f858642a007e24029d8d43a
+checksums           rmd160  6f76a7fbaf52745f99074173c004467b6fd1383f \
+                    sha256  7b97e59e209748ab59bd61df844e6d0aee75f01ab35331bf80990e77138b14b7 \
+                    size    85662770
 
 categories          multimedia
 platforms           darwin
 # i386 unsupported -- https://trac.macports.org/ticket/40337
 supported_archs     x86_64
 license             GPL-2
-maintainers         ctreleaven openmaintainer
+maintainers         {ctreleaven @ctreleaven} openmaintainer
 
 homepage            https://www.mythtv.org/
 universal_variant   no
@@ -61,6 +64,7 @@ if { ${subport} eq ${name} } {
 subport mythtv-core${majorversion} {
 	name                mythtv-core${majorversion}
 	version             0${majorversion}${minorversion}-Fixes-${lastcommit}
+	revision			${corerev}
 
 	description         personal video recorder (PVR) and media centre system
 	long_description    The ultimate Digital Video Recorder and home media \
@@ -103,12 +107,12 @@ subport mythtv-core${majorversion} {
 						port:${perlmodver}-http-request-ascgi \
 						port:${perlmodver}-lwp-useragent-determined \
 						port:${perlmodver}-io-socket-inet6 \
-						port:${perlmodver}-datemanip \
+						port:${perlmodver}-date-manip \
 						port:${perlmodver}-net-upnp
 
 	depends_build       port:yasm  port:pkgconfig
 
-	conflicts           mythtv-core.25 mythtv-core.26
+	conflicts           mythtv-core.25 mythtv-core.26 mythtv-core.28
 
 	depends_run         port:logrotate
 
@@ -202,7 +206,7 @@ subport mythtv-core${majorversion} {
 	# * Some older versions of CLANG do not honor the LIBRARY_PATH
 	# environment variables, which is required for compiling
 	# this port when using MacPorts.  The versions seem to be: MacPorts
-	# CLANG 3.0 or earlier, and Apple CLANG 318.0.61 or older (XCode 4.3.3 and prior).
+	# CLANG 3.0 or earlier, and Apple CLANG 318.0.61 or older (Xcode 4.3.3 and prior).
 	#
 	# See http://code.mythtv.org/trac/ticket/11070
 	# Run-time failures experienced with certain versions of Clang.  Unable to discern cause.
@@ -467,6 +471,7 @@ subport mythtv-core${majorversion} {
 subport mythtv-plugins${majorversion} {
 	name                mythtv-plugins${majorversion}
 	version             0${majorversion}${minorversion}-Fixes-${lastcommit}
+	revision			${pluginsrev}
 
 	description         MythTV plugins for slideshows, music and weather
 	long_description    ${description}  \
@@ -552,7 +557,7 @@ subport mythtv-plugins${majorversion} {
 	}
 
 	variant mythweather description {Weather information for your chosen locations via Myth plugin.} {
-		depends_lib-append		port:${perlmodver}-datemanip\
+		depends_lib-append		port:${perlmodver}-date-manip\
 								port:${perlmodver}-xml-simple \
 								port:${perlmodver}-xml-xpath \
 								port:${perlmodver}-image-size \

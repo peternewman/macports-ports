@@ -12,11 +12,29 @@ categories          science comms
 license             GPL-3
 platforms           darwin macosx
 
-github.setup        osmocom libosmocore 10959cdea2104a6e8c592d590d5b6acf656eb630
-version             20180308
-checksums           rmd160 9aecf9e0b323119523db9f4de1824d6fc0736364 \
-                    sha256 b04f4da6ad3fbc1980cfc7bbc6af17721699c4a153b5c2a842db3516fd39cb1e \
-                    size   983352
+# bump the epoch to switch the main port from a "devel" type to a release
+epoch               1
+
+subport osmocore-devel {}
+
+if {${subport} eq ${name}} {
+
+    # release
+    github.setup    osmocom libosmocore 0.12.1
+    checksums       rmd160 ecbe62d6de2c27d5e3264918d8703f9d49973109 \
+                    sha256 b738ae043f838c6d8cb3a6239ba7506ea73dd350078510de8e563511d60a3688 \
+                    size   1050188
+
+} else {
+
+    # devel
+    github.setup    osmocom libosmocore 559443040567c5def8fdb84dd43504202e2ae7df
+    version         20180904
+    checksums       rmd160 bfb2c549477414452774b2c19e3907a811418228 \
+                    sha256 6cdeac7a276ebba4d2aa7fd4a514f819c63bf36d4a8b4c8a271936b0eefac74a \
+                    size   1059409
+
+}
 
 depends_build-append \
     port:automake \
@@ -72,6 +90,7 @@ pre-configure		{
 # instead of any already-installed ones.
 
 configure.ldflags-delete -L${prefix}/lib
+configure.cppflags-delete -I${prefix}/include
 
 configure.args-append \
                     --disable-pcsc \

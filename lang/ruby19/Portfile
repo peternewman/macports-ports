@@ -5,10 +5,10 @@ PortGroup			select 1.0
 
 name				ruby19
 version				1.9.3-p551
-revision			5
+revision			6
 
 categories			lang ruby
-maintainers			kimuraw openmaintainer
+maintainers			{kimuraw @kimuraw} openmaintainer
 platforms			darwin
 
 description			Powerful and clean object-oriented scripting language

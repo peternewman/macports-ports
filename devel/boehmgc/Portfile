@@ -4,9 +4,10 @@ PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           muniversal 1.0
 
-github.setup        ivmai bdwgc 7.6.4 v
-checksums           rmd160  93f10e17c215fcb7109f31f951b997dec6fe2dec \
-                    sha256  bb467f8990024a76152da8fcb3941cde290b09a9a8cc3fea07eef177919a55cb
+github.setup        ivmai bdwgc 7.6.8 v
+checksums           rmd160  1e3952a2920e97393080fd4cc6a366c2c4ce2416 \
+                    sha256  0e78c46ca44b398943c4c915288ca2215f025d524334d4ab756e73a474081fd6 \
+                    size    781759
 
 name                boehmgc
 conflicts           boehmgc-devel

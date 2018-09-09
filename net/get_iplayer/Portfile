@@ -4,8 +4,7 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 PortGroup           github 1.0
 
-github.setup        get-iplayer get_iplayer 3.06 v
-revision            1
+github.setup        get-iplayer get_iplayer 3.16 v
 categories          net multimedia
 platforms           darwin
 maintainers         {gmail.com:davide.liessi @dliessi} openmaintainer
@@ -16,8 +15,9 @@ description         A utility for downloading TV and radio from BBC iPlayer
 long_description    ${description}. \
                     \nThis port does not install the Web PVR Manager (get_iplayer.cgi).
 
-checksums           rmd160  04cd41dfe065bec4ef09c2e9d0d973e1100967f1 \
-                    sha256  d95cfc14e3681c197df121159af1c2fd107758ce8ede62773ebc2cdcde32eab7
+checksums           rmd160  7171e71a1bb1d7426a168956c3312134ba98e8cb \
+                    sha256  9a6f780d616b66f7e890f380f90dc1d8918dc62165847343fe2ac44e95486757 \
+                    size    141452
 
 perl5.branches      5.26
 

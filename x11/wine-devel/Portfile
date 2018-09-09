@@ -1,18 +1,21 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem                  1.0
+PortGroup                   muniversal 1.0
 PortGroup                   compiler_blacklist_versions 1.0
 
 # Please keep the wine, wine-devel and wine-crossover ports as similar as possible.
 
-# When updating the version of wine, update wine_gecko to a compatible version
-# per the table at http://wiki.winehq.org/Gecko and update wine-mono as well;
-# see http://wiki.winehq.org/Mono and http://sourceforge.net/projects/wine/files/Wine%20Mono/
+# When updating the version of wine, update wine_gecko and wine_mono to compatible versions
+# as referenced in the source code. Check here by replacing X.Y with the version:
+# https://source.winehq.org/git/wine.git/blob/refs/tags/wine-X.Y:/dlls/appwiz.cpl/addons.c
+# see also http://wiki.winehq.org/Gecko and http://wiki.winehq.org/Mono
 
 name                        wine-devel
 conflicts                   wine wine-crossover
 set my_name                 wine
-version                     3.4
+version                     3.14
+revision                    2
 set branch                  [lindex [split ${version} .] 0].x
 license                     LGPL-2.1+
 categories                  x11
@@ -25,7 +28,8 @@ dist_subdir                 ${my_name}
 set wine_distfile           ${distname}${extract.suffix}
 set wine_gecko_version      2.47
 set wine_gecko_distfile     wine_gecko-${wine_gecko_version}-x86.msi
-set wine_mono_version       4.7.1
+set wine_gecko64_distfile   wine_gecko-${wine_gecko_version}-x86_64.msi
+set wine_mono_version       4.7.3
 set wine_mono_distfile      wine-mono-${wine_mono_version}.msi
 use_parallel_build          yes
 
@@ -52,19 +56,24 @@ extract.only                ${wine_distfile}
 
 distfiles                   ${wine_distfile}:winesource \
                             ${wine_gecko_distfile}:winegecko \
+                            ${wine_gecko64_distfile}:winegecko \
                             ${wine_mono_distfile}:winemono
 
 checksums                   ${wine_distfile} \
-                            rmd160  1a5d1650ce60663b210f835f8403a0d4f6e0729a \
-                            sha256  a483247ac93f325d623a463438590b7355ec26c670af15d356b0ce6c46398e93 \
-                            size    19932472 \
+                            rmd160  00bc0fa75ef6be64621dde79c90cbd06544aa120 \
+                            sha256  47896634c255c202d04b85f884b4f1bceb02e1d7bb2ff257b6bc8d69d4b0b005 \
+                            size    20583696 \
                             ${wine_gecko_distfile} \
                             rmd160  abf7cc78b49dd0623bc8fe87ae0e32bb8694e13d \
                             sha256  3b8a361f5d63952d21caafd74e849a774994822fb96c5922b01d554f1677643a \
                             size    49266176 \
+                            ${wine_gecko64_distfile} \
+                            rmd160  254da21cb2503f20d065167b385b3e83ea3ab327 \
+                            sha256  c565ea25e50ea953937d4ab01299e4306da4a556946327d253ea9b28357e4a7d \
+                            size    50806272 \
                             ${wine_mono_distfile} \
-                            rmd160  3e2932960dabff8283f02b32dc573b0dda6adfac \
-                            sha256  2c8d5db7f833c3413b2519991f5af1f433d59a927564ec6f38a3f1f8b2c629aa \
+                            rmd160  1c4aca42bfff33ca7fc485442820c84665a3e581 \
+                            sha256  d24a8017371c7e8224a1778bb43a113ed7ed9720efd9d0cda175d42db6106d3a \
                             size    56470528
 
 # Note: Most of the X11 libs are dlopen()'d
@@ -93,6 +102,16 @@ patchfiles                  BOOL.patch \
                             cups_headers.patch \
                             fix-flicker.patch \
                             mach_machine.patch
+
+pre-configure {
+    if {[variant_isset universal]} {
+        foreach arch ${universal_archs_to_use} {
+            file mkdir ${worksrcpath}-${arch}
+        }
+
+        configure.cmd ${worksrcpath}/configure
+    }
+}
 
 # Wine requires the program specified in INSTALL to create intermediate
 # directories; /usr/bin/install doesn't.
@@ -161,7 +180,7 @@ variant x11 {
                                 port:xorg-libXrandr \
                                 port:xorg-libXxf86vm \
                                 port:xorg-libsm \
-                                port:xorg-xf86vidmodeproto \
+                                port:xorg-xorgproto \
                                 port:xrender
 
     configure.args-delete       --without-osmesa \
@@ -191,9 +210,22 @@ variant x11 {
 
 default_variants            +x11
 
-# 64-bit Wine exists for Linux, but does not work on OS X.
-# http://www.winehq.org/pipermail/wine-devel/2014-February/103074.html
-supported_archs             i386
+configure.universal_args
+
+set merger_build_args(x86_64)     "dlldir=\\\\\${libdir}/wine64"
+set merger_destroot_args(x86_64)  "dlldir=\\\\\${libdir}/wine64"
+set merger_configure_args(x86_64) "--enable-win64 --libdir=${prefix}/lib"
+set merger_configure_args(i386)   --with-wine64=${workpath}/${worksrcdir}-x86_64
+
+if {${build_arch} eq "x86_64"} {
+    default_variants            +universal
+}
+
+if {[variant_isset universal]} {
+    supported_archs         i386 x86_64
+} else {
+    supported_archs         i386
+}
 
 # error: Xcode 3.x cannot build 16-bit code correctly
 compiler.blacklist-append   {gcc-4.2 < 5600}
@@ -211,6 +243,27 @@ compiler.blacklist-append   {clang < 500}
 # FSF GCC cannot compile code using Apple's "blocks" language extensions
 compiler.blacklist-append   macports-gcc-*
 
+if {[variant_isset universal]} {
+    # wine for 64-bit requires clang >= 3.8
+    compiler.blacklist-append   {clang < 800} \
+                                gcc-4.0 \
+                                gcc-4.2 \
+                                apple-gcc-4.2 \
+                                macports-clang-3.3 \
+                                macports-clang-3.4 \
+                                macports-clang-3.5 \
+                                macports-clang-3.6 \
+                                macports-clang-3.7
+    compiler.fallback-append    macports-clang-5.0 \
+                                macports-clang-3.9
+
+    if {${os.platform} eq "darwin" && [vercmp ${macosx_version} 10.7] < 0} {
+        # clang-5.0 on Mac OS X 10.6 emits objects that cannot be read by cctools from Xcode.
+        # /usr/bin/ranlib: object: libwine_port.a(mbtowc.o) malformed object (unknown load command 2)
+        compiler.blacklist-append   macports-clang-5.0
+    }
+}
+
 platform darwin {
     # On macOS, Core Text is used instead of fontconfig since Wine 1.5.10
     depends_lib-delete          port:fontconfig
@@ -221,6 +274,18 @@ platform darwin {
     depends_lib-delete          port:gnutls
     configure.args-delete       --with-gnutls
     configure.args-append       --without-gnutls
+
+    # Vulkan is supported on macOS through MoltenVK since Wine 3.13, but because
+    # it uses Metal it only works on 64-bit, and because it only builds with
+    # Xcode 9 or later it requires Sierra or later.
+    if {${os.major} >= 16 && [variant_exists universal] && [variant_isset universal]} {
+        depends_lib-append                      port:MoltenVK
+        depends_skip_archcheck-append           MoltenVK
+        lappend merger_configure_args(x86_64)   --with-vulkan
+        lappend merger_configure_args(i386)     --without-vulkan
+    } else {
+        configure.args-append   --without-vulkan
+    }
 
     if {${os.major} < 10} {
         configure.args-delete   --with-opencl
@@ -261,7 +326,7 @@ post-destroot {
     reinplace s|@PREFIX@|${prefix}|g ${destroot}${prefix}/bin/wine
 
     xinstall -d ${destroot}${prefix}/share/wine/gecko
-    xinstall -m 644 ${distpath}/${wine_gecko_distfile} ${destroot}${prefix}/share/wine/gecko
+    xinstall -m 644 -W ${distpath} ${wine_gecko_distfile} ${wine_gecko64_distfile} ${destroot}${prefix}/share/wine/gecko
 
     xinstall -d ${destroot}${prefix}/share/wine/mono
     xinstall -m 644 ${distpath}/${wine_mono_distfile} ${destroot}${prefix}/share/wine/mono
@@ -275,6 +340,22 @@ post-destroot {
         LICENSE \
         README \
         ${destroot}${docdir}
+}
+
+if {[variant_isset universal]} {
+    notes-append "
+        \n
+        Wine supports both 32-bit and 64-bit now. It is compatible with your\
+        existing 32-bit wine prefix, but it will now default to 64-bit when you\
+        create a new wine prefix. The architecture can be selected using the\
+        WINEARCH environment variable which can be set to either \"win32\" or\
+        \"win64\".
+
+        To create a new pure 32-bit prefix, you can run:
+            \$ WINEARCH=win32 WINEPREFIX=~/.wine32 winecfg
+
+        See the Wine FAQ for details: https://wiki.winehq.org/FAQ#Wineprefixes
+    "
 }
 
 livecheck.type              regex
