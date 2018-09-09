@@ -4,18 +4,18 @@ PortSystem          1.0
 PortGroup           github 1.0
 
 # normally update mediainfo port at the same time
-github.setup        MediaArea MediaInfoLib 17.12 v
-name                mediainfolib
-checksums           rmd160  b55fc32a8079c2ca457d31ee51c39e7c8a2325a4 \
-                    sha256  6189804822fe90ed4c86beeb8f054eda3381ae3728b885842683c6bf768dca41
-master_sites        https://github.com/MediaArea/${name}/archive/v${version}
+github.setup        MediaArea MediaInfoLib 18.05 v
+checksums           rmd160  177ce8a6f65c87213a6538b727cec40071bd32ef \
+                    sha256  2c0596ecadf0e1c2108d6c29bebe218e4c682f13985a96ec5a42201f24a1390d \
+                    size    2331003
 
+name                mediainfolib
 description         Supplies technical and tag information about a video or audio file
 long_description    ${description}
 homepage            https://mediaarea.net
 categories          devel multimedia
 platforms           darwin
-maintainers         ctreleaven openmaintainer
+maintainers         {ctreleaven @ctreleaven} openmaintainer
 license             BSD
 
 use_autoreconf      yes

@@ -2,7 +2,7 @@
 
 PortSystem          1.0
 PortGroup           cmake 1.0
-PortGroup           cxx11 1.0
+PortGroup           cxx11 1.1
 
 name                chipmunk
 version             7.0.2
@@ -11,7 +11,7 @@ categories          devel
 platforms           darwin
 license             MIT
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Fast and lightweight 2D rigid body physics library in C
 long_description    ${description}

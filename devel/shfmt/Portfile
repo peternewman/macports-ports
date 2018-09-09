@@ -3,11 +3,11 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        mvdan sh 2.3.0 v
+github.setup        mvdan sh 2.5.1 v
 name                shfmt
 categories          devel
 platforms           darwin
-maintainers         {@amake madlon-kay.com:aaron+macports} openmaintainer
+maintainers         {amake @amake} openmaintainer
 license             BSD
 
 description         Autoformat shell script source code
@@ -17,8 +17,9 @@ long_description    A shell script formatter supporting POSIX shell, Bash, and m
 depends_build       port:go
 use_configure       no
 
-checksums           rmd160  958f20e3482c392c99828e67605a127cc307597b \
-                    sha256  6a42a146aefdce3234eba0b1e6210323a79c1668ecb2e00f8e63d901d810289f
+checksums           rmd160  1c5e6e1919edd4402d49e748274100ceb88ef04d \
+                    sha256  57b5be4572eec513f58b96a8add28a4bfde31f83409b67c678ddac55339e77f8 \
+                    size    119860
 
 post-extract {
     xinstall -d ${worksrcpath}/src/mvdan.cc/

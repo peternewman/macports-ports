@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                gnome-getting-started-docs
-version             3.28.0
+version             3.28.2
 set branch          [join [lrange [split ${version} .] 0 1] .]
 description         GNOME Help Getting Started
 long_description    This package adds getting started topics to \
@@ -20,9 +20,9 @@ master_sites        gnome:sources/${name}/${branch}/
 
 use_xz              yes
 
-checksums           rmd160  285d24a4e8f5ea886ec934a290f734b99438c99c \
-                    sha256  0fbda520d20295e2bb0d06ff8758d928a0be1230372388a77c1bb3bdf27f7026 \
-                    size    119146556
+checksums           rmd160  dc3331661c75107b744ac0b9f43ba8a1aa59d751 \
+                    sha256  2eda72c5e399736dee86e8c56f5f42d87058943ff0b4cbca35f2ab932d59e06d \
+                    size    110245016
 
 depends_build       port:pkgconfig \
                     port:itstool \

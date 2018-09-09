@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                byobu
-version             5.124
+version             5.127
 categories          sysutils
 platforms           darwin
 license             GPL-3
@@ -23,8 +23,9 @@ master_sites        https://launchpad.net/byobu/trunk/${version}/+download/
 distname            ${name}_${version}.orig
 worksrcdir          ${name}-${version}
 
-checksums           rmd160  44bfa4889a56d1f0dce1c8551a8af0c14b49bed8 \
-                    sha256  4eca1287b95093ac4697e6ebf7312308d54af90630db151669c5f328e0bef122
+checksums           rmd160  06d01d3d5b7ae0963d6443dad3b0be143272544b \
+                    sha256  4bafc7cb69ff5b0ab6998816d58cd1ef7175e5de75abc1dd7ffd6d5288a4f63b \
+                    size    755529
 
 depends_run         port:coreutils \
                     port:tmux

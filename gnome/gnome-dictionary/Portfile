@@ -26,14 +26,14 @@ checksums           rmd160  2cc3598c4edc75e0fce395d272b86470dc595633 \
 depends_build-append \
                     port:pkgconfig \
                     port:itstool \
-                    port:docbook-xsl \
+                    port:docbook-xsl-nons \
                     port:libxslt
 
 depends_lib         port:desktop-file-utils \
                     port:gobject-introspection \
                     port:gtk3
 
-depends_run         port:gnome-themes-standard \
+depends_run         port:adwaita-icon-theme \
                     port:yelp
 
 # if port gnome-utils is installed

@@ -4,29 +4,29 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-pytest
-version             3.4.2
-revision            0
+version             3.7.4
 categories-append   devel
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         py.test: simple powerful testing with Python
 
 long_description    The py.test` testing tool makes it easy to write small \
                     tests, yet scales to support complex functional testing.
 
-homepage            http://pytest.org
+homepage            https://pytest.org
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  a14f6eac02521668d691b93dde59a2f0f8f78a4a \
-                    sha256  117bad36c1a787e1a8a659df35de53ba05f9f3398fb9e4ac17e80ad5903eb8c5
+checksums           rmd160  b54b1f8fe9f2dbdebc36b87d2fe1b44b37bc9f97 \
+                    sha256  2d7c49e931316cc7d1638a3e5f54f5d7b4e5225972b3c9838f3584788d27f349 \
+                    size    851863
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -36,10 +36,17 @@ if {${name} ne ${subport}} {
                         port:py${python.version}-py \
                         port:py${python.version}-six \
                         port:py${python.version}-attrs \
-                        port:py${python.version}-pluggy
+                        port:py${python.version}-more-itertools \
+                        port:py${python.version}-pluggy \
+                        port:py${python.version}-atomicwrites
 
-    if {${python.version} < 30} {
-        depends_lib-append  port:py${python.version}-funcsigs
+    if {${python.version} eq 27} {
+        depends_lib-append \
+                        port:py${python.version}-funcsigs
+    }
+    if {${python.version} < 36} {
+        depends_lib-append \
+                        port:py${python.version}-pathlib2
     }
 
     patchfiles-append   patch-setup.py.diff

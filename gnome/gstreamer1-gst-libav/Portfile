@@ -9,12 +9,8 @@ PortGroup           compiler_blacklist_versions 1.0
 
 name                gstreamer1-gst-libav
 set my_name         gst-libav
-# unstable versions of the gstreamer1 series are typically, well, unstable
-# typical issues are movement of plugins from one category to another (e.q. bad->good),
-# addition of new plugins and removal of others, missing files, etc
-# beginning with the 1.12 stable series please only push stable versions to git
-# and then only after addressing any possible issues discovered during the previous unstable series.
-version             1.12.4
+# please only commit stable updates (even numbered releases)
+version             1.14.2
 description         This is gst-libav, a set of plug-ins for GStreamer.
 long_description    ${description}
 maintainers         nomaintainer
@@ -26,11 +22,12 @@ master_sites        https://gstreamer.freedesktop.org/src/${my_name}/
 distname            ${my_name}-${version}
 use_xz              yes
 
-checksums           rmd160  5b9e1eb2a27fe66907419c32e4b1b714e07e9683 \
-                    sha256  2a56aa5d2d8cd912f2bce17f174713d2c417ca298f1f9c28ee66d4aa1e1d9e62
+checksums           rmd160  f7d81108842ef9fa2ec757944d8f8d2d1771b0bf \
+                    sha256  8a351c39c5cfc2bbd31ca434ec4a290a730a26efbdea962fdd8306dce5c576de \
+                    size    9036096
 
 depends_build       port:pkgconfig \
-                    port:yasm
+                    port:nasm
 
 depends_lib         port:gstreamer1-gst-plugins-base
 

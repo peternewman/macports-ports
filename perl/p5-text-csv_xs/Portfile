@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           perl5 1.0
 
 perl5.branches      5.26
-perl5.setup         Text-CSV_XS 1.34
+perl5.setup         Text-CSV_XS 1.36
 maintainers         oaf.dk:mni openmaintainer
 
 description         Perl module containing comma-separated values manipulation routines
@@ -16,12 +16,13 @@ long_description    Text::CSV_XS provides facilities for the composition and dec
 platforms           darwin
 license             {Artistic-1 GPL}
 
-checksums           rmd160  7863b0f75ba1ceab06ba6a59c7150242e161dba3 \
-                    sha256  ea3aa6fe50e8ef9c07f4304ace98fca413c9c6cf60d84efc32c314b902e8a134
+checksums           rmd160  ffcf1f7629f38756ceb224a2eca41bc11fee3adc \
+                    sha256  c321b09ad98a332138f25f55afb83befd7c045134085c7cb280fc325e688942c \
+                    size    175357
 
 extract.suffix      .tgz
 
-# recommends Encode 2.93, perl5.26 core is 2.88
+# recommends Encode 2.98, perl5.26 core is 2.88
 if {${perl5.major} != ""} {
     depends_lib-append \
                     port:p${perl5.major}-encode

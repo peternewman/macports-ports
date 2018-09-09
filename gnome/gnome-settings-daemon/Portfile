@@ -5,6 +5,7 @@ PortGroup           active_variants 1.1
 
 name                gnome-settings-daemon
 version             3.26.2
+revision            2
 license             GPL-2 LGPL-2.1
 set branch          [join [lrange [split ${version} .] 0 1] .]
 description         Gnome 3 settings daemon.
@@ -25,7 +26,7 @@ depends_build       port:pkgconfig \
                     port:autoconf \
                     port:automake \
                     port:libtool \
-                    port:docbook-xsl \
+                    port:docbook-xsl-nons \
                     port:docbook-xml
 
 depends_lib         port:gtk3 \
@@ -41,7 +42,7 @@ depends_lib         port:gtk3 \
                     port:policykit \
                     port:pulseaudio \
                     port:upower \
-                    port:xorg-kbproto \
+                    port:xorg-xorgproto \
                     port:xorg-libXi \
                     port:xorg-libXtst \
                     port:xorg-libXfixes \

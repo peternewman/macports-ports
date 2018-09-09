@@ -5,7 +5,7 @@ PortGroup           python 1.0
 
 set real_name       acme
 name                py-${real_name}
-version             0.22.0
+version             0.27.1
 worksrcdir          ${real_name}-${version}
 distfiles           ${real_name}-${version}${extract.suffix}
 categories-append   security
@@ -17,10 +17,11 @@ platforms           darwin
 homepage            https://pypi.python.org/pypi/acme
 master_sites        pypi:a/acme
 
-python.versions     27
+python.versions     27 36 37
 
-checksums           rmd160  fea614308fc4cca8dc7fdb7546b7fbfa16278f1d \
-                    sha256  4a2cd52db32e914b68d8446c8e788f507c20edebbd1c36d4f3eda7b47c555fe8
+checksums           rmd160  fbdc950e06528312edc5c3f9af0017ecb605f445 \
+                    sha256  31a7b9023ce183616e6ebd5d783e842c3d68696ff70db59a06db9feea8f54f90 \
+                    size    80900
 
 if {${name} ne ${subport}} {
     depends_build-append \
@@ -36,6 +37,7 @@ if {${name} ne ${subport}} {
                     port:py${python.version}-ndg_httpsclient \
                     port:py${python.version}-openssl \
                     port:py${python.version}-requests \
+                    port:py${python.version}-requests-toolbelt \
                     port:py${python.version}-pyrfc3339 \
                     port:py${python.version}-setuptools \
                     port:py${python.version}-six \

@@ -24,7 +24,8 @@ if {${name} eq ${subport}} {
     revision        6
     checksums       \
         rmd160 8623dbfe2584d6e5c633aa140f30139a13a59128 \
-        sha256 128b467c4ed03264c187405172a4e83049342cc8cc2f655f53a2d0ee9d3772f4
+        sha256 128b467c4ed03264c187405172a4e83049342cc8cc2f655f53a2d0ee9d3772f4 \
+        size   1203495
 
     long_description ${long_description} ${subport} \
 provides the release version.
@@ -35,11 +36,12 @@ provides the release version.
 
 subport libcaca-devel {
 
-    github.setup    cacalabs libcaca da28e9684ef445ac8d42745644336b8a75c01855
-    version         20171001
+    github.setup    cacalabs libcaca f1267fbd3cd3635a628c30e523fe1217f0f8a3b3
+    version         20180522
     checksums       \
-        rmd160 7792b69abda5a088f37cb06c98b0c46e2132b56e \
-        sha256 9d13896fcb29db7352ecd159e98d52335e91eddd665043ffca2c2ef0efdfc3b0
+        rmd160 0cae565a81d919c6d0a6d628a52fa679eb9cce2d \
+        sha256 df7daff5970b41a3a7c02b77ca7fdeaeab072a846ae72c91ca5353c2dbc6e64e \
+        size   875248
 
     conflicts       libcaca
     long_description ${long_description} ${subport} \

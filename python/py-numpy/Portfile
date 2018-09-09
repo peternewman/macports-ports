@@ -13,10 +13,10 @@ maintainers             {michaelld @michaelld} openmaintainer
 description             The core utilities for the scientific library scipy for Python
 long_description        ${description}
 
-github.setup            numpy numpy 1.14.2 v
-checksums               rmd160 49474afe20ac6b476eff79f00dc356d3f990e803 \
-                        sha256 96efaecc43b180a17503d6c7732d35f927422e831e62f6fee8b8c663f44fdacc \
-                        size   4278107
+github.setup            numpy numpy 1.15.1 v
+checksums               rmd160 af1c828bdc0ad08fc6bd9d424619984fa46ab950 \
+                        sha256 443bbd8c8cdde24a2b5b7c739ea093bab7aeca02d6896132d3ab7823925370df \
+                        size   4412509
 
 if {${name} ne ${subport}} {
     # the python PortGroup puts compiler names in build.env and destroot.env
@@ -25,7 +25,7 @@ if {${name} ne ${subport}} {
     pre-destroot { set_compilers }
 }
 
-python.versions         26 27 33 34 35 36
+python.versions         26 27 33 34 35 36 37
 
 # respect ${build_arch} value
 compilers.clear_archflags  no
@@ -53,7 +53,7 @@ if {${name} ne ${subport}} {
                             patch-numpy_tests_test_scripts.py.diff \
                             patch-fcompiler_g95.diff
     }
-    compilers.setup         require_fortran -clang -dragonegg -gcc44 -gcc45 \
+    compilers.setup         require_fortran -clang -gcc44 -gcc45 \
                             -gcc46 -gcc47 -gcc48 -g95 clang37
 
     patchfiles-append       patch-f2py_setup.py.diff
@@ -207,11 +207,11 @@ variant."
 
         if {[variant_isset universal]} {
             if {[variant_isset atlas]} {
-                # uses fortran as a linker, which does not handle multile -arch values properly
+                # uses fortran as a linker, which does not handle multiple -arch values properly
                 return 1
             }
             if {![string match *clang* ${configure.cc}]} {
-                # gcc compilers do not handle multile -arch values properly
+                # gcc compilers do not handle multiple -arch values properly
                 return 1
             }
         }
@@ -234,5 +234,5 @@ variant."
 
     livecheck.type        none
 } else {
-    livecheck.regex       archive/[join ${github.tag_prefix} ""](\[\\d+(?:\\.\\d+)*"\]+)${extract.suffix}"
+    github.livecheck.regex  {([\d+(?:.\d+)*"]+)}
 }

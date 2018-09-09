@@ -7,11 +7,11 @@ PortGroup muniversal 1.0
 
 #remember to update the -doc and -server as well
 name                postgresql10
-version             10.3
+version             10.5
 
 categories          databases
 platforms           darwin
-maintainers         nomaintainer
+maintainers         {jwa @jyrkiwahlstedt}
 license             Permissive
 description         The most advanced open-source database available anywhere.
 long_description    PostgreSQL is Object-Relational Database Management System.\
@@ -25,8 +25,9 @@ master_sites        http://ftp3.de.postgresql.org/pub/Mirrors/ftp.postgresql.org
             postgresql:source/v${version}/
 distname            postgresql-${version}
 
-checksums           rmd160  4f9f08c957c1c2e5feb9bfc6231c9722fdffe0d2 \
-                    sha256  6ea268780ee35e88c65cdb0af7955ad90b7d0ef34573867f223f14e43467931a
+checksums           rmd160  2427223152e54ba048b3881380091530f4887b58 \
+                    sha256  6c8e616c91a45142b85c0aeb1f29ebba4a361309e86469e0fb4617b6a73c4011 \
+                    size    20284578
 
 use_bzip2           yes
 
@@ -62,7 +63,7 @@ configure.args      --sysconfdir=${prefix}/etc/${name} \
 configure.ldflags-append    -headerpad_max_install_names
 configure.universal_args-delete --disable-dependency-tracking
 
-# building psql with clang from XCode prior to 4.4 causes segfault on query; see #31717
+# building psql with clang from Xcode prior to 4.4 causes segfault on query; see #31717
 compiler.blacklist-append   {clang < 421}
 notes "To use the postgresql server, install the ${name}-server port"
 

@@ -3,7 +3,7 @@
 PortSystem          1.0
 
 name                wolfssl
-version             3.13.0
+version             3.15.3
 categories          devel security
 platforms           darwin
 maintainers         yassl.com:chris
@@ -21,11 +21,12 @@ long_description    \
     is up to 20 times smaller than OpenSSL, and offers progressive ciphers \
     such as ChaCha20, Poly1305, and NTRU.
 
-master_sites        http://www.wolfssl.com/
+master_sites        https://www.wolfssl.com/
 use_zip             yes
 
-checksums           rmd160  939e846f5c8797bfde1ff7c0b6045ffe5aeb104f \
-                    sha256  196a3256a9044ecb89504ce77850342c82e676e7f2cad77f5584be3516b6060e
+checksums           rmd160  140b84077a191727e5322540c189af90a76123e2 \
+                    sha256  4c9d931331fac773c656f2ae7c12ffb37ee142d3f525b96cb4bd94b2dad4343a \
+                    size    5609731
 
 configure.args      --enable-distro
 

@@ -2,11 +2,10 @@
 PortSystem          1.0
 
 name                subversion-perlbindings
-version             1.9.7
-revision            1
+version             1.10.2
 categories          devel perl
 platforms           darwin
-maintainers         {geeklair.net:dluke @danielluke} blair
+maintainers         {geeklair.net:dluke @danielluke} {blair @blair}
 description         Perl bindings for the subversion version control system (svn)
 license             Apache-2
 
@@ -50,9 +49,10 @@ if {${subport} eq ${name}} {
 
     master_sites    apache:subversion
     use_bzip2       yes
-	checksums	sha1	874b81749cdc3e88152d103243c3623ac6338388 \
-			rmd160	d4ede3249729ce56ff7c9d7993a238d7a5446733 \
-			sha256	c3b118333ce12e501d509e66bb0a47bcc34d053990acab45559431ac3e491623
+	checksums	sha1	bc52ef2e671f821998ac9a5f7ebecbbcaaef83b8 \
+			rmd160	0bbd621bb7c61f62c6072c65e3d26de4ce273a5d \
+			sha256	5b35e3a858d948de9e8892bf494893c9f7886782f6abbe166c0487c19cf6ed88 \
+			size	8369762
 
     distname        subversion-${version}
     dist_subdir     subversion
@@ -75,7 +75,11 @@ if {${subport} eq ${name}} {
                     port:serf1 \
                     port:sqlite3 \
                     port:subversion \
-                    port:zlib
+                    port:zlib \
+                    port:libutf8proc \
+                    port:lz4
+
+    depends_build   port:swig
 
     configure.args  --with-berkeley-db=:${prefix}/include/db46:${prefix}/lib/db46:db-4.6 \
                     --with-apr=${prefix}/bin/apr-1-config \

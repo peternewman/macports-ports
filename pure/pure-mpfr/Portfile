@@ -3,7 +3,8 @@
 PortSystem              1.0
 PortGroup               pure 1.0
 
-pure.setup              mpfr 0.5
+pure.setup              pure-mpfr 0.5
+revision                1
 categories-append       devel math
 platforms               darwin
 maintainers             {ryandesign @ryandesign} {gmail.com:aggraef @agraef}

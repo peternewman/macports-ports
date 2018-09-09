@@ -3,9 +3,13 @@
 PortSystem          1.0
 PortGroup           github 1.0
 
-github.setup        ccache ccache 3.4.1 v
-name                ccache-devel
 epoch               1
+github.setup        ccache ccache 3.4.3 v
+checksums           rmd160  62b0864cf13d93b76c87f86bcc10396c1fab2301 \
+                    sha256  1c466d85e8257261f794878f6ae321e7a9e5c6682378b01293292bd3fc82d202 \
+                    size    354448
+
+name                ccache-devel
 categories          devel
 platforms           darwin freebsd
 license             GPL-3+
@@ -22,10 +26,6 @@ long_description \
 
 homepage            https://ccache.samba.org/
 
-checksums           rmd160  701ac3c274ec84dcb2668b02823d97359d879a09 \
-                    sha256  f28f4738d349e2c5728f4fd54b6cb5c807d73f9aa5ea60a460be7b1568c87100 \
-                    size    346557
-
 # use_autoconf yes and setting autoconf.cmd to a non-default value will modify
 # depends_build, removing autoconf/automake/libtool. Avoid this by doing it
 # before setting depends_build.
@@ -35,19 +35,13 @@ autoconf.cmd        ./autogen.sh
 depends_build       port:asciidoc \
                     port:autoconf \
                     port:automake \
-                    port:docbook-xsl \
                     port:libtool \
-                    port:libxslt
+                    bin:perl:perl5
 
 depends_lib         port:zlib
 
-patchfiles          patch-dev.mk.in.diff
+patchfiles          no-Werror.patch
 
-post-patch {
-    reinplace "s|@PREFIX@|${prefix}|g" ${worksrcpath}/dev.mk.in
-}
-
-
-build.target-append ccache.1
+build.target-append doc/ccache.1
 
 conflicts           ccache

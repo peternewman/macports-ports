@@ -3,8 +3,7 @@
 PortSystem          1.0
 
 name                libu2f-host
-version             1.1.4
-revision            1
+version             1.1.6
 categories          security
 platforms           darwin
 maintainers         {l2dy @l2dy} openmaintainer
@@ -22,8 +21,9 @@ master_sites        https://developers.yubico.com/${name}/Releases/
 
 use_xz              yes
 
-checksums           rmd160  1d8f0a24304e980f81f230740f3de7837b9a5d97 \
-                    sha256  6043ec020d96358a4887a3ff09492c4f9f6b5bccc48dcdd8f28b15b1c6157a6f
+checksums           rmd160  f9afa18828d8224d94b88d03e22bdb37e4ea3428 \
+                    sha256  4da0bb9e32cab230e63bf65252076f9a4b5e40eb9ec2ddaf9376bcef30e7bda7 \
+                    size    469380
 
 depends_build       port:pkgconfig
 depends_lib         port:json-c \

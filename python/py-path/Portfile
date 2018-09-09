@@ -4,16 +4,16 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-path
-version             11.0
+version             11.1.0
 revision            0
 categories-append   devel
 platforms           darwin
 license             MIT
 supported_archs     noarch
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         A module wrapper for os.path.
 long_description    ${description}
@@ -23,8 +23,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}.
 
 distname            ${python.rootname}.py-${version}
 
-checksums           rmd160  0721b6e5722f18a0ccd2f5388f9a257ba72f581a \
-                    sha256  16134e5b287aba4a4125a6722e7837cf2a149fccc5000c500ae6c71a5525488b
+checksums           rmd160  71823e2a7c02a8a1e3c182acb6cce03676d4d357 \
+                    sha256  cbcbb3ed71b42fb8df1bc7645ddde298817f1a51684c3f9b3101937bdb28ff79 \
+                    size    39115
 
 if {${name} ne ${subport}} {
     depends_build-append \

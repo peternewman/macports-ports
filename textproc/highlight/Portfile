@@ -4,8 +4,7 @@ PortSystem          1.0
 PortGroup           cxx11 1.1
 
 name                highlight
-version             3.42
-revision            1
+version             3.44
 categories          textproc devel
 platforms           darwin
 license             GPL-3
@@ -17,8 +16,9 @@ homepage            http://www.andre-simon.de
 master_sites        ${homepage}/zip/
 use_bzip2           yes
 
-checksums           rmd160  9b188a5223b80c8b1d927d648e8f8c67d1d46fb7 \
-                    sha256  a582810384a0c1e870dcd2ca157ba4b5120f898ceb2fd370cfed4f86fc87311e
+checksums           rmd160  d7997c545d98c21c2fd09f68989e3cb8cf3713da \
+                    sha256  53a1191f1b21130d9690e4c9a82947af11777d8e9569446b997c5a824e601fa4 \
+                    size    1335764
 
 depends_build       port:boost \
                     port:cctools \

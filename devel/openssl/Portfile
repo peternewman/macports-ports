@@ -5,7 +5,7 @@ PortGroup           muniversal 1.0
 
 name                openssl
 epoch               1
-version             1.0.2n
+version             1.0.2p
 
 # Please revbump these ports when updating OpenSSL.
 #  - freeradius (#43461)
@@ -14,7 +14,7 @@ version             1.0.2n
 categories          devel security
 platforms           darwin
 license             OpenSSL SSLeay
-maintainers         larryv cal openmaintainer
+maintainers         {larryv @larryv} {cal @neverpanic} openmaintainer
 
 description         OpenSSL SSL/TLS cryptography library
 long_description    The OpenSSL Project is a collaborative effort to \
@@ -33,7 +33,6 @@ depends_lib         port:zlib
 # See https://www.openssl.org/source/mirror.html
 master_sites        ${homepage}/source \
                     ftp://gd.tuwien.ac.at/infosys/security/openssl/source/ \
-                    http://openssl.skazkaforyou.com/source/ \
                     http://mirror.switch.ch/ftp/mirror/openssl/source/ \
                     ftp://ftp.fi.muni.cz/pub/openssl/source/ \
                     ftp://ftp.pca.dfn.de/pub/tools/net/openssl/source/ \
@@ -41,9 +40,10 @@ master_sites        ${homepage}/source \
                     ftp://ftp.linux.hr/pub/openssl/source/ \
                     ftp://guest.kuria.katowice.pl/pub/openssl/source/
 
-checksums           sha1    0ca2957869206de193603eca6d89f532f61680b1 \
-                    rmd160  90fbf1df8986e04921e14e4c6e408458b5b31f6c \
-                    sha256  370babb75f278c39e0c50e8c4e7493bc0f18db6867478341a832a982fd15a8fe
+checksums           sha1    f34b5322e92415755c7d58bf5d0d5cf37666382c \
+                    rmd160  0df40a7f180e381bff7d7d9593bdfece4b054951 \
+                    sha256  50a98e07b1a89eb8f6a99477f262df71c6fa7bef77df4dc83025a2845c827d00 \
+                    size    5338192
 
 patchfiles          install-headers-HFS+.patch \
                     parallel-building.patch \

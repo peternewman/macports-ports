@@ -4,7 +4,7 @@ PortSystem          1.0
 
 name                postgis
 version             1.5.8
-revision            2
+revision            3
 categories          databases
 license             GPL-2
 platforms           darwin
@@ -28,13 +28,13 @@ checksums           rmd160  825be8892a22c660200bb6005608375cb47c920d \
                     sha256  4896fdae2f814b88c3ca458b7d01d7eca7e9aca021599c817919f131a1b0d804
 
 depends_build \
-    port:docbook-xsl \
+    port:docbook-xsl-nons \
     port:libxslt \
     port:ImageMagick
 
 depends_lib \
     port:geos \
-    port:proj \
+    port:proj4 \
     port:libiconv \
     port:libxml2
 
@@ -44,8 +44,8 @@ patchfiles          patch-postgis-Makefile.in.diff
 
 configure.args \
     --datadir=${prefix}/share/${name} \
-    --with-projdir=${prefix} \
-    --with-xsldir=${prefix}/share/xsl/docbook-xsl
+    --with-projdir=${prefix}/lib/proj49 \
+    --with-xsldir=${prefix}/share/xsl/docbook-xsl-nons
 
 configure.cflags-append \
     -Diconv=libiconv -Diconv_open=libiconv_open -Diconv_close=libiconv_close

@@ -11,9 +11,9 @@ maintainers         {mcalhoun @MarcusCalhoun-Lopez} openmaintainer
 # for OpenSSLException, see source and header files in src/network/ssl of qtbase
 license             {LGPL-3 GPL-3 OpenSSLException}
 
-homepage            http://qt.io
+homepage            https://www.qt.io
 
-version             5.9.3
+version             5.9.6
 if { ${subport} eq "${name}-qtwebkit" ||
      ${subport} eq "${name}-qtwebkit-examples" ||
      ${subport} eq "${name}-qtwebkit-docs" } {
@@ -32,7 +32,7 @@ set qt_major        [lindex [split ${version} .] 0]
 PortGroup           cxx11 1.1
 
 master_sites        \
-    http://download.qt.io/official_releases/qt/${branch}/${version}/submodules
+    https://download.qt.io/official_releases/qt/${branch}/${version}/submodules
 
 # see https://trac.macports.org/ticket/53952
 dist_subdir qt5
@@ -48,6 +48,11 @@ foreach {qt_test_name qt_test_info} [array get available_qt_versions] {
     if {${name} ne ${qt_test_name}} {
         conflicts-append [lindex ${qt_test_info} 0]
     }
+}
+
+# qt59-qtbase replaces qt5-qtbase, so can not conflict
+if { ${os.major} == 14 } {
+    conflicts-delete qt5-qtbase
 }
 
 ############################################################################### Modules Not Considered
@@ -78,7 +83,7 @@ foreach {qt_test_name qt_test_info} [array get available_qt_versions] {
 # port provides `find ./ -name \*.dylib -exec otool -L {} \; | grep /opt/local/libexec/qt5 | cut -d ' ' -f1` | cut -d : -f2 | sort -u
 # port provides `find ./ -name \*.dylib -exec otool -L {} \; | grep /opt/local/lib/ | cut -d ' ' -f1` | cut -d : -f2 | sort -u
 #
-# http://code.qt.io/cgit/qt/qt5.git/tree/.gitmodules?h=5.9
+# https://code.qt.io/cgit/qt/qt5.git/tree/.gitmodules?h=5.9
 #
 ###############################################################################
 
@@ -111,8 +116,11 @@ foreach {qt_test_name qt_test_info} [array get available_qt_versions] {
 ############################################################################### Module Format
 #
 # "Qt Module Name" {
-#     checksum, rmd160
-#     checksum, sha256
+#     {
+#         checksum, rmd160
+#         checksum, sha256
+#         checksum, size
+#     }
 #     dependencies, build
 #     dependencies, lib
 #     dependencies, Qt module name
@@ -123,13 +131,16 @@ foreach {qt_test_name qt_test_info} [array get available_qt_versions] {
 #     license replacement
 # }
 #
-# module info found at http://doc.qt.io/qt-5.9/qtmodules.html
+# module info found at https://doc.qt.io/qt-5.9/qtmodules.html
 #
 ###############################################################################
 array set modules {
     qt3d {
-        ff0732da9e87ea951e3b8eb1e2f2a3baba597e55
-        97925132f0583ccd76f5e104c849341df3abba73dd4d9b647622a23bdae6273f
+        {
+            5261293ccce164db182a054177ff223b550a56a5
+            c89cbc12fde5a279e5b127651a194cae75003ba8113f9e7e7b24e67495ecff09
+            83722792
+        }
         ""
         "port:assimp"
         "qtdeclarative qtimageformats qtgamepad"
@@ -140,8 +151,11 @@ array set modules {
         "License: "
     }
     qtbase {
-        9b7edd7badceb34deeb7df2c1afad3ed02475e62
-        9e7c44005e7691dc7c85165bd4510282c47f0163521f4973eab71dbdb39a9982
+        {
+            32c41b2ac54ed62f98888a0d61e7cf7235e6be70
+            eed620cb268b199bd83b3fc6a471c51d51e1dc2dbb5374fc97a0cc75facbe36f
+            45129248
+        }
         ""
         "port:zlib port:libpng port:jpeg port:freetype path:bin/dbus-daemon:dbus port:tiff port:libmng path:lib/pkgconfig/glib-2.0.pc:glib2 port:icu port:pcre2 port:harfbuzz"
         ""
@@ -152,8 +166,11 @@ array set modules {
         "License: "
     }
     qtcanvas3d {
-        7ad2cdbd5b42866dde4af8da836ff969f4609e79
-        5e38b17844af801be57844da0379cc6882750b9019034f4fe884aae70c300abc
+        {
+            f9553ba939491f14a323462c87e58de76fcc4770
+            9da45991f62152c2c76931aed8a6059375fdce441b38752991e1ad2c77507c22
+            10890412
+        }
         ""
         ""
         "qtdeclarative"
@@ -164,8 +181,11 @@ array set modules {
         "License: "
     }
     qtcharts {
-        183998a61c1becae8e69a0c8648efff4fd4c30fc
-        ec1783a81d5715fc48a3276e67b90a66cac3e283ac14fc3bf88b2058994d69e9
+        {
+            07a783e7ea2a43ca520ec03d98c95b44ce0e7b36
+            5fd60f08b1815b0e7b813c75a0ec726bffc7cc686b160bebf1e710e882ceadab
+            4155980
+        }
         ""
         ""
         "qtbase qtdeclarative qtmultimedia"
@@ -176,8 +196,11 @@ array set modules {
         "License: {GPL-3 OpenSSLException}"
     }
     qtconnectivity {
-        3a0505aa5f108c1bbdc449f1731598258cd1bf0f
-        e2891e6e8d91e82e3c4d5667f3146062458067c0b706d65ac0fc7562afce0649
+        {
+            134f467d209793d2f9366028c347d4b1a412b3c3
+            6c696855c2d4e63709ba81d22c85cab30f66418eac2fb2810a02a4b47a531c57
+            2712048
+        }
         ""
         ""
         "qtbase qtdeclarative"
@@ -188,8 +211,11 @@ array set modules {
         "License: "
     }
     qtdatavis3d {
-        ca154084765901084e4ff3eb3d51b139b2f5c4a3
-        709f69487dea9a8b44764c0dc92d65080bc0949038ed774897792a427a34c368
+        {
+            c0cc7dd25269875ed54034ea345c71858c2bedca
+            bd34c7ca5614f171d6858c899afbac76c461d5695dfb3426e0838f4aece77ad0
+            5162724
+        }
         ""
         ""
         "qtbase qtdeclarative qtmultimedia"
@@ -200,8 +226,11 @@ array set modules {
         "License: {GPL-3 OpenSSLException}"
     }
     qtdeclarative {
-        d6568c002df20b6e7c72c8b56506c5677c0ed485
-        505f66d2062c1d84ce743a0b4969531e1cf94e30970dc64efffe10f74f989407
+        {
+            3b908d4f125fd059da3bdae51ea8e54ade70d7f4
+            058fd99a779a753fc5f5e887f1afb799aa53b9f010faa06374b1cfb6fc8bad8a
+            21417200
+        }
         "port:python27"
         ""
         "qtbase qtsvg qtxmlpatterns"
@@ -212,8 +241,11 @@ array set modules {
         "License: "
     }
     qtdoc {
-        7d1f9d513ccc2239d0e0ab296d28d8cf2a4deb77
-        e569aa76c2a682618d2088307dfadbf3ff74e5300861963c0279d4ac442a712a
+        {
+            9a5f701bd31431b6fd436e61e5cea291eab03e07
+            b310ebb9521bd075d887cd9ad81effdc0af555e58988bdeb02d8127083f23214
+            2892408
+        }
         ""
         ""
         "qtdeclarative qttools sqlite-plugin"
@@ -224,8 +256,11 @@ array set modules {
         "License: "
     }
     qtgamepad {
-        201fb083882a936bd9709670dc396449ecd896b9
-        c69fcacdc81338e1eba43138ecedf3e7a1b34315349522c0070a04cc4acc6a93
+        {
+            89b9675d767584b8bf9038769f3242b95f47cbd6
+            252e7dcef82dc52fa2f103dbb6cb25ad9d6ef6dce3254e7255e1e6e4f3cf685c
+            365056
+        }
         ""
         "port:libsdl2"
         "qtbase qtdeclarative"
@@ -236,8 +271,11 @@ array set modules {
         "License: "
     }
     qtgraphicaleffects {
-        5fcd3418a6eded9a05915588e379ceccc2795bca
-        790b029bc8bdbb5c9548ecad2ff6e73b7da3deabbdba6bacac4a6aacd3a0f0d9
+        {
+            12205cdf536b501b0d89156d63a74b112cc5c503
+            5f98bc62e8f27bd13853e90306e7e10f47fb06d7cd38f2e7be76bd907ef37154
+            14226968
+        }
         ""
         ""
         "qtdeclarative"
@@ -248,8 +286,11 @@ array set modules {
         "License: "
     }
     qtimageformats {
-        db72800e2126f5b2013f3dd4d01d0066379705c8
-        d4b309ddbac2275cafadffc62047a26ed8f169bde015925761894843eae725dd
+        {
+            2727721f13bcb8dbcb9aecbfc92d8b2c86623798
+            158272da5e49a388b43423399592372968984323bfd543a5a992bbd466ff4060
+            2107828
+        }
         ""
         "port:jasper port:libmng port:tiff port:webp"
         "qtbase"
@@ -260,8 +301,11 @@ array set modules {
         "License: "
     }
     qtlocation {
-        d536bdd5a71c9161203a3798613cde95a249df3f
-        80fd425cde8747c1fc79aa90994a9caf921d7c79ff41babec692fe43cdc74ce1
+        {
+            5da85115cd22da53d7a52a40e2cff01b31473ff1
+            7d65c8e155c617719e2fb56d39f11cf2bc911a43cf6667c124d86cc1a12619c9
+            5405652
+        }
         ""
         ""
         "qtbase qtdeclarative qtquickcontrols qtquickcontrols2 qtserialport"
@@ -272,8 +316,11 @@ array set modules {
         "License: "
     }
     qtmacextras {
-        9b0423181feab8f7f0235386f1b23d46e47e2f2a
-        3e36b8695e3c7410d53e6341b73c8089543502673fb2d89ceaf2c29d081e3b5e
+        {
+            7c7bf910e79aceac634ccb533d3afb56df6ace30
+            ff1cb739d723d191030e488a3cceb4d91fbf099c3ba1ecf8c3556fab825da6bd
+            48572
+        }
         ""
         ""
         "qtbase"
@@ -284,8 +331,11 @@ array set modules {
         "License: "
     }
     qtmultimedia {
-        6954e52ef5fcd56a5eaeebd0d5299e272f6e9ab8
-        e79558d24ace9b4444d91d807b85778b6a0a592e7d1500ffadf45f7d3b8238a6
+        {
+            6a7f5ca8ecdff88dadcda912f4e9f0e567477c68
+            9edc11d74e10e4ef857ab38a66700259829e6b5baa4ab0b30655f549d8939fff
+            3585964
+        }
         ""
         ""
         "qtbase qtdeclarative"
@@ -296,8 +346,11 @@ array set modules {
         "License: "
     }
     qtnetworkauth {
-        f9c06985fb70f45787acf77bc6957be57c270058
-        df22376e35e837e5d9f633ed245275e94a826fdff0d312eb9031ae7e082ebf39
+        {
+            cb9087a00bcf8e72ad7b3e57c0fdf4a67a23abdc
+            96247352e73cdfd5ed178cb3267a818eea1c1fc3e8af54a0373a72efa2e2616a
+            112188
+        }
         ""
         ""
         "qtbase qtwebview"
@@ -308,8 +361,11 @@ array set modules {
         "License: "
     }
     qtpurchasing {
-        8468e6c693e550cf0f554df6e1e2e832d4f6ce23
-        1268781935d6f8a1eb9fcfe5d2e8eb4b116658b07e039db43bee6507406bce03
+        {
+            777cfea0fb48ab4338988453340ab532db7dd07b
+            88b8f6cb55a2050740678e4cbd98e051dc9ec218bb0c3c213f1b892fac730664
+            187600
+        }
         ""
         ""
         "qtbase qtdeclarative"
@@ -320,8 +376,11 @@ array set modules {
         "License: {GPL-3 OpenSSLException}"
     }
     qtquickcontrols {
-        94962c503a11a466265d3ece2095a79817dbf490
-        300eeebd7d2c243c0123bc2324b5643b3f967c0816aead0ba7b993aeeac0e226
+        {
+            e091c9245b26981befefc8a82bc3b232619201bf
+            da4dd353802197c2bb53c92a36cf7749c7d9dc29b4acc919b692683e9c1c3313
+            6013760
+        }
         ""
         ""
         "qtdeclarative qtgraphicaleffects"
@@ -332,8 +391,11 @@ array set modules {
         "License: "
     }
     qtquickcontrols2 {
-        64b4a9c35b4e7d814f8da9ef9080aeeaed4246a6
-        21aaa26956ad0ccc3ce86ced7925ceae4b4cef25c6c5ef2f7ded608431420843
+        {
+            99d5b53b8c6dc5822c43daa3576cfdb3fddd5e80
+            24b41ae6acec9372190147736ba31bf0b4467c71cc4b14817e3a82a750481679
+            4158180
+        }
         ""
         ""
         "qtgraphicaleffects"
@@ -344,8 +406,11 @@ array set modules {
         "License: "
     }
     qtremoteobjects {
-        452dcdadfca3bf3dbc959b00f5c4f0662c60ea0d
-        b31167c64846b96aeadbd94d4040c4add684e19a93daa9737b47991cd068d87c
+        {
+            2ec6fe6d37ee817a6c12b525d5b6fe1fb057aca6
+            d127bb32641a5bfa3365fa587d902a84b14e5831356fc05828f280dd22db2a26
+            282372
+        }
         ""
         ""
         "qtdeclarative"
@@ -356,8 +421,11 @@ array set modules {
         "License: "
     }
     qtscript {
-        623ff86cbdbb77f29dfa35738e84e10d7e6b3ae5
-        b80bfaaf58f154b68101e438a1881f669cb9974026926be7755adb00af355566
+        {
+            1e0abc14e2d2a671150e7458b1934b0d1d51dad7
+            8dbf41abee35be4eb34a56ca3276fac83f3b8671db54c3c7e91c877225727220
+            2607812
+        }
         ""
         ""
         "qtbase qttools"
@@ -368,8 +436,11 @@ array set modules {
         "License: "
     }
     qtscxml {
-        029284339d2f0af6c326ead7f0c559e276b8ec1f
-        d8f51fa8eddd09fef29d8fad6e570e9ca9403469543ab10cb5cfad738786a81b
+        {
+            e7e9981e2a4a8567bd5a768cbece083a881f35ca
+            33947621fd6675c68d67ba11325746a82e7d582599ca0f04e03da4f60d82339a
+            414120
+        }
         ""
         ""
         "qtbase qtdeclarative"
@@ -380,8 +451,11 @@ array set modules {
         "License: "
     }
     qtsensors {
-        7a0be1311550301be48ad788e66beb649a44f694
-        b95ea20b3d616655435357671558631da6fe6970500b7e6d35d1111f0b8cdac1
+        {
+            a75a748f8ab93cd320cc2c7384c88abb0489aa2c
+            047fac53c555e685c346be53faacf581cb98d9e2a3193cb55f4e7e81fc51de27
+            1994404
+        }
         ""
         ""
         "qtbase qtdeclarative"
@@ -392,8 +466,11 @@ array set modules {
         "License: "
     }
     qtserialbus {
-        d1faf1176f09fa0cabc7a44094f875dff107cbc8
-        ef62745e1793515e03fa586171de13eb17ee7699c9eb626f76a4dc5a00c46938
+        {
+            8fac43e402a630c9a6a246f3625d47a33fcbfb68
+            f3e8d0e6ff836198c9fc5b9a2a89dea3c5d604c63a62126fab6d11c2763f172a
+            278920
+        }
         ""
         ""
         "qtserialport"
@@ -404,8 +481,11 @@ array set modules {
         "License: "
     }
     qtserialport {
-        b0b3f249b7e46ba0200ec7e41c4654dec026e1aa
-        4cdd3e9157ec3e91078f993cd28651989fa2429a409e19d398fb9cced231abdf
+        {
+            78605adad2bb4156b019cd8d5e819da4bce63628
+            741dfe9d132aed411ad163304fd4485df2da0b40fe57ebce2f6ed4b4043dfcb9
+            268344
+        }
         ""
         ""
         "qtbase"
@@ -416,8 +496,11 @@ array set modules {
         "License: "
     }
     qtspeech {
-        51515da549fc0228d51d51667b24f73dad0a2a65
-        01526024437dfc1e4f652e0b883fc3333260321aacee4c51774018bf86bb99b0
+        {
+            71a099420eaa598d010186dda0a2230739d9fd2d
+            3a8ffea889f8852e9c46e123baab7438b6bdf4b5af1f46ab4a69478b9e7ad011
+            80716
+        }
         ""
         ""
         "qtbase qtdeclarative qtmultimedia"
@@ -428,8 +511,11 @@ array set modules {
         "License: "
     }
     qtsvg {
-        9bcb326da2fcf98c41bb70f440f60fcf7f31d996
-        df6628a60c8fbbcff99e6a24955c29494268d741509a3367a2294031ab4f5df2
+        {
+            5d1f6dae5926c56c098175067ca810cc65ad15e9
+            4318ce3c1f94ca865e3405aefb927f257ca824c5adc482302f1449ed34dbd8b8
+            1778688
+        }
         ""
         ""
         "qtbase"
@@ -440,8 +526,11 @@ array set modules {
         "License: "
     }
     qttools {
-        6c266e4b69bfcb56b422daa5c593f1cabb6e9f06
-        442c38de3e35f9dcc355dadff35436e23a5a7abd7dd1167a3bf6325e3d9284ff
+        {
+            7ba61b8bd1023fb282e433549e026cfd78501f5a
+            50e75417ec0c74bb8b1989d1d8e981ee83690dce7dfc0c2169f7c00f397e5117
+            9575188
+        }
         ""
         ""
         "qtbase qtdeclarative"
@@ -452,8 +541,11 @@ array set modules {
         "License: "
     }
     qttranslations {
-        cb91a4efa0ad28f78b395dc5e0de4d0f6ee77b3b
-        40ac57ec79dd4fd27dff7a9d8abe8ebe2106c19a4b60daf007353f4671909bd9
+        {
+            5868ade188b429f58913e0d6001f058386fdba35
+            9822084f8e2d2939ba39f4af4c0c2320e45d5996762a9423f833055607604ed8
+            1376088
+        }
         ""
         ""
         "qttools"
@@ -464,8 +556,11 @@ array set modules {
         "License: "
     }
     qtvirtualkeyboard {
-        88bc2c491e3b1b104a9ecdd11f3357d8409f17b5
-        b9313f744026f0dcf6e1008212880cd34851499d8b6bc9fc9fbaa1e4e52532ff
+        {
+            01a2a92a2645d33c7c55f94ff9a9373138e831a0
+            217d8502f3f53b62e6e9108e0afb3694cf1d8ae8a6348d3625e3192fc126128c
+            10045984
+        }
         ""
         "port:hunspell"
         "qtbase qtdeclarative qtsvg qtmultimedia qtquickcontrols"
@@ -476,8 +571,11 @@ array set modules {
         "License: {GPL-3 OpenSSLException}"
     }
     qtwebchannel {
-        b8ba311c200b526d02c49d1f3664bdb5c8fbc32f
-        632795b293f1318e9aaa1e124b6a39b1625c8c1e35b0a9f05a02ea0066458358
+        {
+            35379891e88987a920e69b6a08f1e66a226ecc01
+            222df712c661d4003eebf28806cfd25047721e1c21b70ca320c5978c4a2c7ba5
+            147564
+        }
         ""
         ""
         "qtbase qtdeclarative qtwebsockets"
@@ -488,8 +586,11 @@ array set modules {
         "License: "
     }
     qtwebengine {
-        b55fdcde3d02a3080ed16c7ee489f927546a4a04
-        45ae1142fd87271c100f4d7889427738e774e86db5d8f6bcf9ceb99d18571d37
+        {
+            d39a68c5e625790d87f7d4f8ccb94120d86491fd
+            4766707f5d8c174a284c0ed813bc6163db0220d69736424d3370b44b640443a1
+            216733460
+        }
         "port:python27 port:py27-ply port:ninja"
         ""
         "qtquickcontrols qtwebchannel qtlocation qttools"
@@ -500,8 +601,11 @@ array set modules {
         "License: "
     }
     qtwebkit {
-        72cab2a8473801dcbbe8fc41ecf8dc45775f8b18
-        28a560becd800a4229bfac317c2e5407cd3cc95308bc4c3ca90dba2577b052cf
+        {
+            72cab2a8473801dcbbe8fc41ecf8dc45775f8b18
+            28a560becd800a4229bfac317c2e5407cd3cc95308bc4c3ca90dba2577b052cf
+            35300628
+        }
         "port:python27"
         "port:fontconfig port:icu port:leveldb port:webp port:libxml2 port:libxslt port:zlib port:sqlite3"
         "qtbase qtdeclarative qtlocation qtmultimedia qtsensors qtwebchannel qtxmlpatterns"
@@ -512,8 +616,11 @@ array set modules {
         "License: "
     }
     qtwebkit-examples {
-        21e9ec7d6b6ebe0e96dde0f59324a814b57048bc
-        e4ce4de6b468243abad2baabbe8ddfb05d25b186529bfe88cb8662fc983f54d0
+        {
+            21e9ec7d6b6ebe0e96dde0f59324a814b57048bc
+            e4ce4de6b468243abad2baabbe8ddfb05d25b186529bfe88cb8662fc983f54d0
+            3426504
+        }
         ""
         ""
         "qtwebkit qtdeclarative qtlocation qttools qtwebchannel qtwebengine"
@@ -524,8 +631,11 @@ array set modules {
         "License: "
     }
     qtwebsockets {
-        d2ec99f4320e6d65fdebff34b2bdad79826157e6
-        ce069dff5b552bc6039bcf17e211d2c8837757e2194773bb54054105866111de
+        {
+            98458c6220cfb5e83752042eebfd095893df06a1
+            7609eba33ebc9c6954644470ebbb1292cdae50f36d0c8ff5ab068b249e4a3c8e
+            199624
+        }
         ""
         ""
         "qtbase qtdeclarative"
@@ -536,8 +646,11 @@ array set modules {
         "License: "
     }
     qtwebview {
-        1c241fd003229fe49d0f1ae0cdc486c6f30a9269
-        ee5663e4294c09e7c762c6cc8ed7cf8e7bd9776ac557c29c76b7f967907729c5
+        {
+            b47773a0fdbd971e478fc1f37969c7de3d8fdd42
+            17ce9b1062b0e0cbf08560407b0a471877ae3f3fecd9d7e4215017a4d3d43bfa
+            108724
+        }
         ""
         ""
         "qtdeclarative qtwebengine"
@@ -548,8 +661,11 @@ array set modules {
         "License: "
     }
     qtxmlpatterns {
-        4be9febb27404556a50583821a5900a7edbcf970
-        cf9c66a612a963382f7b4b51ac8ee5e920bd035b26ecb5c5957f8f3d3286f0ba
+        {
+            3593961e0da913ac575c7815b66b701a37fd567c
+            6a435b14b85e17268b7acf764e7ed92430045a7bb6eb741a1ea200d2df0986dc
+            1344204
+        }
         ""
         ""
         "qtbase"
@@ -667,7 +783,7 @@ if { ${os.major} < 14 } {
 
 foreach {module module_info} [array get modules] {
 
-    set revision_string [string trim [lindex ${module_info} 8]]
+    set revision_string [string trim [lindex ${module_info} 7]]
     set revision_string [string range ${revision_string} 1+[string last " " ${revision_string}] end]
 
     subport ${name}-${module} {
@@ -681,11 +797,12 @@ foreach {module module_info} [array get modules] {
         # see https://bugreports.qt.io/browse/QTBUG-35514
         build.target
 
-        checksums                              \
-            rmd160  [lindex ${module_info} 0]  \
-            sha256  [lindex ${module_info} 1]
+        checksums                                        \
+            rmd160  [lindex [lindex ${module_info} 0] 0] \
+            sha256  [lindex [lindex ${module_info} 0] 1] \
+            size    [lindex [lindex ${module_info} 0] 2]
 
-        set license_string [lindex ${module_info} 9]
+        set license_string [lindex ${module_info} 8]
         set license_string [string range ${license_string} 1+[string first ":" ${license_string}] end]
         set license_string [string trim  ${license_string}]
 
@@ -693,15 +810,15 @@ foreach {module module_info} [array get modules] {
             license {*}${license_string}
         }
 
-        foreach deps [lindex ${module_info} 2] {
+        foreach deps [lindex ${module_info} 1] {
             depends_build-append [subst ${deps}]
         }
 
-        foreach deps [lindex ${module_info} 3] {
+        foreach deps [lindex ${module_info} 2] {
             depends_lib-append [subst ${deps}]
         }
 
-        foreach qtdeps [lindex ${module_info} 4] {
+        foreach qtdeps [lindex ${module_info} 3] {
             if { ${qtdeps} ne "qtbase" } {
                 depends_lib-append port:${name}-${qtdeps}
             }
@@ -709,7 +826,7 @@ foreach {module module_info} [array get modules] {
 
         description       Tools and Module(s) for Qt Tool Kit ${qt_major}
 
-        set modules_provided_list [lindex ${module_info} 5]
+        set modules_provided_list [lindex ${module_info} 4]
         if { [llength ${modules_provided_list}] == 1 } {
             set modules_provided_join [lindex ${modules_provided_list} 0]
         } elseif { [llength ${modules_provided_list}] == 2 } {
@@ -733,13 +850,13 @@ foreach {module module_info} [array get modules] {
             if { [variant_isset universal] } {
                 pre-fetch {
                     ui_warn "Multiple architectures is not a Reference Configuration for Qt."
-                    ui_warn "See http://doc.qt.io/qt-5/supported-platforms.html#reference-configurations"
+                    ui_warn "See https://doc.qt.io/qt-5/supported-platforms.html#reference-configurations"
                 }
             } else {
                 if { ${configure.build_arch} eq "i386" } {
                     pre-fetch {
                         ui_warn "32-bit mode is not a Reference Configuration for Qt."
-                        ui_warn "See http://doc.qt.io/qt-5/supported-platforms.html#reference-configurations"
+                        ui_warn "See https://doc.qt.io/qt-5/supported-platforms.html#reference-configurations"
                     }
                 }
             }
@@ -752,14 +869,9 @@ foreach {module module_info} [array get modules] {
             # see https://github.com/Homebrew/homebrew-core/blob/master/Formula/qt5.rb
             patchfiles-append patch-pc_files.diff
 
-            # see http://stackoverflow.com/questions/14506151/invalid-symbol-redefinition-in-inline-asm-on-llvm
+            # see https://stackoverflow.com/questions/14506151/invalid-symbol-redefinition-in-inline-asm-on-llvm
             # only runs test code on 32-bit systems
             patchfiles-append patch-tst_benchlibcallgrind.diff
-
-            # avoid non-standard C++ that Xcode Clang accepts but other compilers do not
-            # see http://lists.llvm.org/pipermail/llvm-bugs/2017-January/053481.html
-            # see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=11764
-            patchfiles-append patch-qualified_reference.diff
 
             # find the Rez program
             patchfiles-append patch-find_rez.diff
@@ -841,7 +953,7 @@ foreach {module module_info} [array get modules] {
             if { [string match macports-clang-* ${configure.compiler}] && [vercmp ${xcodeversion} "7.0"] >= 0 } {
                 # non-Xcode clang does not seem to be able to understand tbd files
                 # for an explanation of tbd files, see
-                #    http://stackoverflow.com/questions/31450690/why-xcode-7-shows-tbd-instead-of-dylib
+                #    https://stackoverflow.com/questions/31450690/why-xcode-7-shows-tbd-instead-of-dylib
                 # see https://trac.macports.org/ticket/53151
                 pre-fetch {
                     ui_error "This configuration is known to fail"
@@ -1089,7 +1201,7 @@ foreach {module module_info} [array get modules] {
 
                 # see https://trac.macports.org/ticket/51358
                 #     for why not a path dependency
-                depends_lib-append port:openssl
+                depends_lib-append path:lib/libssl.dylib:openssl
             }
             default_variants-append +openssl
 
@@ -1102,28 +1214,28 @@ foreach {module module_info} [array get modules] {
             set request_tests    true
             set def_var          ""
 
-            if { [lsearch -exact [lindex ${module_info} 7] "~universal"] != -1 } {
+            if { [lsearch -exact [lindex ${module_info} 6] "~universal"] != -1 } {
                 universal_variant no
             }
 
-            if { [lsearch -exact [lindex ${module_info} 7] "noarch"] != -1 } {
+            if { [lsearch -exact [lindex ${module_info} 6] "noarch"] != -1 } {
                 supported_archs   noarch
                 universal_variant no
             }
 
-            if { [lsearch -exact [lindex ${module_info} 7] "~debug"] != -1 } {
+            if { [lsearch -exact [lindex ${module_info} 6] "~debug"] != -1 } {
                 qt5.debug_variant no
             }
 
-            if { [lsearch -exact [lindex ${module_info} 7] "~examples"] != -1 } {
+            if { [lsearch -exact [lindex ${module_info} 6] "~examples"] != -1 } {
                 set request_examples false
             }
 
-            if { [lsearch -exact [lindex ${module_info} 7] "~tests"] != -1 } {
+            if { [lsearch -exact [lindex ${module_info} 6] "~tests"] != -1 } {
                 set request_tests    false
             }
 
-            if { [lsearch -exact [lindex ${module_info} 7] "++examples"] != -1 } {
+            if { [lsearch -exact [lindex ${module_info} 6] "++examples"] != -1 } {
                 set request_examples true
                 lappend def_var "+examples"
             }
@@ -1203,7 +1315,7 @@ foreach {module module_info} [array get modules] {
                 # unless a way is found, ReproducibleBuilds (https://trac.macports.org/wiki/ReproducibleBuilds)
                 #    requires qtdoc depend on all the documentation modules
                 foreach {module_doc module_doc_info} [array get modules] {
-                    if { [lsearch -exact [lindex ${module_doc_info} 7] "~docs"] == -1 } {
+                    if { [lsearch -exact [lindex ${module_doc_info} 6] "~docs"] == -1 } {
                         depends_lib-append port:${name}-${module_doc}-docs
                     }
                 }
@@ -1226,6 +1338,10 @@ foreach {module module_info} [array get modules] {
                         reinplace "s|return 0;|return 0;\\\n#error turn off test|g" ${worksrcpath}/config.tests/${test}/main.cpp
                     }
                 }
+
+                # see https://trac.macports.org/ticket/56615
+                # see https://bugreports.qt.io/browse/QTBUG-67810
+                patchfiles-append patch-qtlocation-no-cxx17.diff
             }
 
             # special case
@@ -1294,8 +1410,8 @@ foreach {module module_info} [array get modules] {
             # special case
             if { ${module} eq "qtwebengine" } {
                 # see http://lists.qt-project.org/pipermail/interest/2016-February/thread.html#20946
-                # see http://googleappsupdates.blogspot.co.uk/2014/09/google-chrome-64-bit-for-mac-and-windows.html
-                # see http://doc.qt.io/qt-5/qtwebengine-platform-notes.html
+                # see https://googleappsupdates.blogspot.co.uk/2014/09/google-chrome-64-bit-for-mac-and-windows.html
+                # see https://doc.qt.io/qt-5/qtwebengine-platform-notes.html
                 supported_archs x86_64
 
                 # UsingTheRightCompiler (https://trac.macports.org/wiki/UsingTheRightCompiler)
@@ -1398,7 +1514,7 @@ foreach {module module_info} [array get modules] {
         }
     }
 
-    if { [lsearch -exact [lindex ${module_info} 7] "~docs"] == -1 } {
+    if { [lsearch -exact [lindex ${module_info} 6] "~docs"] == -1 } {
 
         subport ${name}-${module}-docs {
 
@@ -1418,9 +1534,10 @@ foreach {module module_info} [array get modules] {
             build.target    docs
             destroot.target install_docs
 
-            checksums                              \
-                rmd160  [lindex ${module_info} 0]  \
-                sha256  [lindex ${module_info} 1]
+            checksums                                        \
+                rmd160  [lindex [lindex ${module_info} 0] 0] \
+                sha256  [lindex [lindex ${module_info} 0] 1] \
+                size    [lindex [lindex ${module_info} 0] 2]
 
             depends_build-append            \
                 port:${name}-qttools        \
@@ -1429,7 +1546,7 @@ foreach {module module_info} [array get modules] {
             # depend on the modules for which this subport provides documentation
             # also have the same build dependencies
             depends_build-append port:${name}-${module}
-            foreach deps [lindex ${module_info} 2] {
+            foreach deps [lindex ${module_info} 1] {
                 depends_build-append [subst ${deps}]
             }
 
@@ -1464,7 +1581,7 @@ foreach {module module_info} [array get modules] {
     }
 }
 
-# see http://doc.qt.io/qt-5/sql-driver.html for info on building SQL Database Drivers
+# see https://doc.qt.io/qt-5/sql-driver.html for info on building SQL Database Drivers
 foreach {sql_names sql_info} [array get sql_plugins] {
     set driver          [lindex ${sql_names} 0]
     set dbms            [lindex ${sql_names} 1]
@@ -1481,9 +1598,10 @@ foreach {sql_names sql_info} [array get sql_plugins] {
             revision ${revision_string}
         }
 
-        checksums                               \
-            rmd160  [lindex $modules(qtbase) 0] \
-            sha256  [lindex $modules(qtbase) 1]
+        checksums                              \
+            rmd160  [lindex [lindex $modules(qtbase) 0] 0] \
+            sha256  [lindex [lindex $modules(qtbase) 0] 1] \
+            size    [lindex [lindex $modules(qtbase) 0] 2]
 
         description       ${dbms} Database Driver for Qt Tool Kit ${qt_major}
         long_description  ${dbms} Database Driver for Qt Tool Kit ${qt_major}
@@ -1580,8 +1698,8 @@ subport ${name}-docs {
     }
 
     foreach {module module_info} [array get modules] {
-        if { [lindex ${module_info} 6] eq "" } {
-            if { [lsearch -exact [lindex ${module_info} 7] "~docs"] == -1 } {
+        if { [lindex ${module_info} 5] eq "" } {
+            if { [lsearch -exact [lindex ${module_info} 6] "~docs"] == -1 } {
                 depends_run-append port:${name}-${module}-docs
             }
         }
@@ -1617,7 +1735,7 @@ if { ${subport} eq ${name} } {
     }
 
     foreach {module module_info} [array get modules] {
-        if { [lindex ${module_info} 6] eq "" } {
+        if { [lindex ${module_info} 5] eq "" } {
             depends_run-append port:${name}-${module}
         }
     }
@@ -1722,6 +1840,10 @@ post-destroot {
     }
 }
 
-livecheck.type      regex
-livecheck.url       http://download.qt.io/archive/qt/${branch}/
-livecheck.regex     (\\d+(\\.\\d+)+)
+if {${subport} eq ${name}} {
+    livecheck.type      regex
+    livecheck.url       https://download.qt.io/archive/qt/${branch}/
+    livecheck.regex     (\\d+(\\.\\d+)+)
+} else {
+    livecheck.type      none
+}

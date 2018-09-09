@@ -4,14 +4,14 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-pandas
-version             0.22.0
+version             0.23.4
 categories-append   science
 license             BSD
 platforms           darwin
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Powerful data structures for data analysis and statistics
 
@@ -22,8 +22,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  6a8e2f6494c8c9f0f7adfbb738203e5e3f0b55c6 \
-                    sha256  44a94091dd71f05922eec661638ec1a35f26d573c119aa2fad964f10a2880e6c
+checksums           rmd160  57efaf345b3ce33099c9d56ecd973ca7d39bc345 \
+                    sha256  5b24ca47acf69222e82530e89111dd9d14f9b970ab2cd3a1c2c78f0c4fbba4f4 \
+                    size    10490077
 
 if {${name} ne ${subport}} {
     depends_build-append \

@@ -1,7 +1,8 @@
 PortSystem 1.0
 
 name                    qemu
-version                 2.11.0
+version                 2.12.0
+revision                1
 categories              emulators
 license                 GPL-2+
 platforms               darwin
@@ -18,17 +19,12 @@ homepage                https://www.qemu.org
 master_sites            https://download.qemu.org/
 use_bzip2               yes
 
-checksums               rmd160  9bddb470afa43b3bde815b31c1b04aa70bd13110 \
-                        sha256  c4f034c7665a84a1c3be72c8da37f3c31ec063475699df062ab646d8b2e17fcb \
-                        size    32816398
-
-# Due to the bundled u-boot sources, the qemu tarball cannot be extracted on
-# a case-insensitive file system. The sources are not used, just shipped along
-# with the compiled rom. Excluding the conflicting file to allow extraction.
-# https://bugs.launchpad.net/qemu/+bug/1714750
-extract.post_args-append --exclude qemu-${version}/roms/u-boot/scripts/Kconfig
+checksums               rmd160  6d1bb9ef49ef58aad4b72a0bea9dd8b56929b37c \
+                        sha256  c9f4a147bc915d24df9784affc611a115f42d24720a89210b479f1ba7a3f679c \
+                        size    41196232
 
 patchfiles              patch-configure.diff
+patch.pre_args          -p1
 
 depends_build           port:texinfo \
                         port:libtool \
@@ -103,10 +99,13 @@ build.args-append       V=1
 default_variants        +usb
 
 foreach t {i386 x86_64 alpha {arm aarch64} cris lm32 m68k {microblaze microblazeel} {mips mipsel mips64 mips64el} \
-           moxie or32 {ppc ppcemb ppc64} s390x {sh4 sh4eb} {sparc sparc64} tricore unicore32 {xtensa xtensaeb}} {
+           moxie or1k {ppc ppcemb ppc64} s390x {sh4 sh4eb} {sparc sparc64} tricore unicore32 {xtensa xtensaeb}} {
     variant target_[lindex $t 0] description "Add target support for [join $t {, }]" "append target_list \",[join $t -softmmu,]-softmmu\""
 }
 default_variants-append +target_i386 +target_x86_64
+
+# Compatiblity variant, remove after 2018-12-31
+variant target_or32 description "Compatibility variant, renamed to +target_or1k" requires target_or1k {}
 
 if {![variant_isset curses]} {
     default_variants-append +cocoa

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-ddt
-version             1.1.2
+version             1.2.0
 platforms           darwin
 license             MIT
 maintainers         {khindenburg @kurthindenburg} openmaintainer
@@ -16,11 +16,11 @@ homepage            https://pypi.python.org/pypi/${python.rootname}/
 master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  341c6fe6adf5bdc8f5704f7245ca83f0e88846c9 \
-                    sha256  fdb6af91e668ad29e0e51ec1cb3baf67c628ae006b171735f2d42ae8c1af13f3 \
-                    size    10156
+checksums           rmd160  a07020398269dcbc019e16407617ef0658a8ff5d \
+                    sha256  898364fc34b27981b925171a0011c174c94633cb678eb1fac05fe7a234c7912c \
+                    size    8772
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
 if {${name} ne ${subport}} {
     depends_build-append    port:py${python.version}-setuptools

@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           cmake 1.0
 
 name                wireshark2
-version             2.4.5
+version             2.6.3
 revision            0
 categories          net
 license             {GPL-2 GPL-3}
@@ -27,12 +27,12 @@ distfiles           wireshark-${version}${extract.suffix}
 
 worksrcdir          wireshark-${version}
 
-checksums           sha256  b3b2ec29fba0f4a3a590438abe4054e56f19108d440fc2d61492db9d8ff16fd7 \
-                    rmd160  f14cbb589a4fbf42f2420a34f2e98a2b274641e6 \
-                    sha1    c49dfaba0a62d9e3f8ecda5e148f19cba9800900 \
-                    size    28836740
+checksums           sha256  d158a8a626dc0997a826cf12b5316a3d393fb9f93d84cc86e75b212f0044a3ec \
+                    rmd160  74a558e7a004c64ff118870d525025beda4a665d \
+                    sha1    d239fd091d59968ac8a1b42b28e61aeef09c20b7 \
+                    size    28384004
 
-conflicts           wireshark-devel wireshark wireshark22
+conflicts           wireshark-devel wireshark wireshark22 wireshark24
 
 depends_build-append \
                     port:pkgconfig
@@ -150,7 +150,7 @@ post-destroot {
     xinstall -d ${destroot}${prefix}/include/wireshark/epan/dissectors/
     xinstall -d ${destroot}${prefix}/include/wireshark/epan/ftypes/
     xinstall -d ${destroot}${prefix}/include/wireshark/wiretap/
-    xinstall -m 644 -W ${worksrcpath}/ config.h register.h ${destroot}${prefix}/include/wireshark/
+    xinstall -m 644 -W ${worksrcpath}/ config.h ${destroot}${prefix}/include/wireshark/
     xinstall -m 644 {*}[glob ${worksrcpath}/epan/*.h] ${destroot}${prefix}/include/wireshark/epan/
     xinstall -m 644 {*}[glob ${worksrcpath}/epan/crypt/*.h] ${destroot}${prefix}/include/wireshark/epan/crypt/
     xinstall -m 644 {*}[glob ${worksrcpath}/epan/dfilter/*.h] ${destroot}${prefix}/include/wireshark/epan/dfilter/

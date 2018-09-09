@@ -20,7 +20,7 @@ long_description        PHP is a widely-used general-purpose scripting \
                         scripting.
 
 # The list of PHP branches this port provides.
-php.branches            5.2 5.3 5.4 5.5 5.6 7.0 7.1 7.2
+php.branches            5.2 5.3 5.4 5.5 5.6 7.0 7.1 7.2 7.3
 
 # Fix for users specifying the subport name with the wrong case.
 set subport             [string tolower ${subport}]
@@ -109,48 +109,48 @@ switch ${subport_branch} {
     }
     5.6 {
         epoch           2
-        version         5.6.34
+        version         5.6.37
         use_xz          yes
-        checksums       rmd160  392ba932c8f76bf9657b0046bc3af535ea504a7b \
-                        sha256  21453be3a045204cd2717543ef42771324f411f40962ecda4fe841930a933128 \
-                        size    12465748
+        checksums       rmd160  88841eaf9001ad61678b74386d1bfad9f0608409 \
+                        sha256  5000d82610f9134aaedef28854ec3591f68dedf26a17b8935727dac2843bd256 \
+                        size    12467912
     }
     7.0 {
         epoch           2
-        version         7.0.28
+        version         7.0.31
         use_xz          yes
-        checksums       rmd160  6ce545ce4c297ca5b367e31abf5fd2b5749fa589 \
-                        sha256  e738ffce2c30bc0e84be9446af86bef0a0607d321f1a3d04bbfe2402fb5f6de0 \
-                        size    11917836
+        checksums       rmd160  d09a9aec4ac4c828a25ac6bd37b99a3847e40442 \
+                        sha256  68f57b3f4587071fb54a620cb83a1cfb3f0bd4ee071e0ce3bf7046a5f2d2f3cf \
+                        size    12029516
     }
     7.1 {
         epoch           2
-        version         7.1.15
+        version         7.1.21
         use_xz          yes
-        checksums       rmd160  bfcf7c23ac2dcc9a3773641b1d1e0cd0c99f6d73 \
-                        sha256  0e17192fb43532e4ebaa190ecec9c7e59deea7dadb7dab67b19c2081a68bd817 \
-                        size    12201380
+        checksums       rmd160  3c303cf34c760e3f1947fecda9f306c4492fbbf2 \
+                        sha256  d4da6dc69d3fe1e6b2b80f16b262f391037bfeb21213c966e026bd45d7ca2813 \
+                        size    12227636
     }
     7.2 {
         epoch           2
-        version         7.2.3
+        version         7.2.9
         use_xz          yes
-        checksums       rmd160  bb7a37a8833dd68d4d14b7d5ea48ee7efd6ad0b7 \
-                        sha256  b3a94f1b562f413c0b96f54bc309706d83b29ac65d9b172bc7ed9fb40a5e651f \
-                        size    12098236
+        checksums       rmd160  4160bb6050d436e621bb07bfa975dd572772b487 \
+                        sha256  3585c1222e00494efee4f5a65a8e03a1e6eca3dfb834814236ee7f02c5248ae0 \
+                        size    12126780
     }
     7.3 {
         # When this becomes a stable version, remove the overrides for homepage,
         # master_sites and livecheck, and update php.latest_stable_branch in the
         # php-1.1 portgroup.
         epoch           0
-        version         7.3.0alpha1
+        version         7.3.0beta3
         homepage        https://qa.php.net/
-        master_sites    https://downloads.php.net/~pollita/
+        master_sites    https://downloads.php.net/~cmb/
         use_xz          yes
-        checksums       rmd160  0 \
-                        sha256  0 \
-                        size    0
+        checksums       rmd160  0a831af9096e01b66a934dab7ae753809bc5a005 \
+                        sha256  062111b400939d26f3a6ec41925b52b93feb1a5e70e3ccade12496cea9fb190f \
+                        size    11906224
         livecheck.url   ${homepage}
         livecheck.regex php-([strsed ${subport_branch} {g/\\./\\./}](?:\\.\[0-9.\]+)*(?:(?:alpha|beta|RC)\\d+|-latest))\\.tar
     }
@@ -189,8 +189,13 @@ if {[is_sapi_subport]} {
                         port:libxml2 \
                         port:bzip2 \
                         port:mhash \
-                        port:pcre \
                         port:zlib
+
+    if {[vercmp ${branch} 7.3] < 0} {
+        depends_lib-append  port:pcre
+    } else {
+        depends_lib-append  port:pcre2
+    }
     
     # Use -p1 to accommodate the Suhosin patch
     patch.pre_args      -p1
@@ -210,6 +215,11 @@ if {[is_sapi_subport]} {
     # Tested all subports (except oracle) and they built with clang-425.  The reported failure was with Xcode 4.2.
     # Xcode 4.3 may work, but leaving it blacklisted due to lack of testing
     compiler.blacklist  {clang < 400}
+
+    if {[vercmp ${branch} 7.3] >= 0 && ${os.arch} eq "i386"} {
+        # https://bugs.php.net/bug.php?id=76825
+        compiler.blacklist-append   *gcc-3.* *gcc-4.* {clang < 500}
+    }
     
     set phpinidir       ${prefix}/etc/${php}
     set extraphpinidir  ${prefix}/var/db/${php}
@@ -628,10 +638,12 @@ subport ${php}-enchant {
         xinstall -d ${destroot}${docdir}
         xinstall -m 644 -W ${destroot.dir} CREDITS ${destroot}${docdir}
         
+        if {[vercmp ${branch} 7.3] < 0} {
         set examplesdir ${prefix}/share/examples/${subport}
         xinstall -d ${destroot}${examplesdir}
         xinstall -m 644 ${destroot.dir}/docs/examples/example1.php \
             ${destroot}${examplesdir}
+        }
     }
 }
 }
@@ -809,6 +821,8 @@ subport ${php}-mbstring {
 }
 
 if {[vercmp ${branch} 7.2] < 0} {
+# mcrypt was evicted from PHP core in version 7.2; php72-mcrypt and later
+# subports are found in the separate php-mcrypt Portfile.
 subport ${php}-mcrypt {
     categories-append       security
     
@@ -1132,78 +1146,85 @@ subport ${php}-postgresql {
     
     long_description        ${description}
     
-    variant postgresql82 conflicts postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 description {Use PostgreSQL 8.2 libraries} {
+    variant postgresql82 conflicts postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 postgresql10 description {Use PostgreSQL 8.2 libraries} {
         depends_lib-append      port:postgresql82
         
         configure.args-append   --with-pgsql=${prefix}/lib/postgresql82/bin \
                                 --with-pdo-pgsql=${prefix}/lib/postgresql82/bin
     }
     
-    variant postgresql83 conflicts postgresql82 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 description {Use PostgreSQL 8.3 libraries} {
+    variant postgresql83 conflicts postgresql82 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 postgresql10 description {Use PostgreSQL 8.3 libraries} {
         depends_lib-append      port:postgresql83
         
         configure.args-append   --with-pgsql=${prefix}/lib/postgresql83/bin \
                                 --with-pdo-pgsql=${prefix}/lib/postgresql83/bin
     }
     
-    variant postgresql84 conflicts postgresql82 postgresql83 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 description {Use PostgreSQL 8.4 libraries} {
+    variant postgresql84 conflicts postgresql82 postgresql83 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 postgresql10 description {Use PostgreSQL 8.4 libraries} {
         depends_lib-append      port:postgresql84
         
         configure.args-append   --with-pgsql=${prefix}/lib/postgresql84/bin \
                                 --with-pdo-pgsql=${prefix}/lib/postgresql84/bin
     }
     
-    variant postgresql90 conflicts postgresql82 postgresql83 postgresql84 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 description {Use PostgreSQL 9.0 libraries} {
+    variant postgresql90 conflicts postgresql82 postgresql83 postgresql84 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 postgresql10 description {Use PostgreSQL 9.0 libraries} {
         depends_lib-append      port:postgresql90
         
         configure.args-append   --with-pgsql=${prefix}/lib/postgresql90/bin \
                                 --with-pdo-pgsql=${prefix}/lib/postgresql90/bin
     }
     
-    variant postgresql91 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 description {Use PostgreSQL 9.1 libraries} {
+    variant postgresql91 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 postgresql10 description {Use PostgreSQL 9.1 libraries} {
         depends_lib-append      port:postgresql91
         
         configure.args-append   --with-pgsql=${prefix}/lib/postgresql91/bin \
                                 --with-pdo-pgsql=${prefix}/lib/postgresql91/bin
     }
     
-    variant postgresql92 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql93 postgresql94 postgresql95 postgresql96 description {Use PostgreSQL 9.2 libraries} {
+    variant postgresql92 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql93 postgresql94 postgresql95 postgresql96 postgresql10 description {Use PostgreSQL 9.2 libraries} {
         depends_lib-append      port:postgresql92
         
         configure.args-append   --with-pgsql=${prefix}/lib/postgresql92/bin \
                                 --with-pdo-pgsql=${prefix}/lib/postgresql92/bin
     }
     
-    variant postgresql93 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql94 postgresql95 postgresql96 description {Use PostgreSQL 9.3 libraries} {
+    variant postgresql93 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql94 postgresql95 postgresql96 postgresql10 description {Use PostgreSQL 9.3 libraries} {
         depends_lib-append      port:postgresql93
         
         configure.args-append   --with-pgsql=${prefix}/lib/postgresql93/bin \
                                 --with-pdo-pgsql=${prefix}/lib/postgresql93/bin
     }
     
-    variant postgresql94 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql95 postgresql96 description {Use PostgreSQL 9.4 libraries} {
+    variant postgresql94 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql95 postgresql96 postgresql10 description {Use PostgreSQL 9.4 libraries} {
         depends_lib-append      port:postgresql94
         
         configure.args-append   --with-pgsql=${prefix}/lib/postgresql94/bin \
                                 --with-pdo-pgsql=${prefix}/lib/postgresql94/bin
     }
     
-    variant postgresql95 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql96 description {Use PostgreSQL 9.5 libraries} {
+    variant postgresql95 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql96 postgresql10 description {Use PostgreSQL 9.5 libraries} {
         depends_lib-append      port:postgresql95
         
         configure.args-append   --with-pgsql=${prefix}/lib/postgresql95/bin \
                                 --with-pdo-pgsql=${prefix}/lib/postgresql95/bin
     }
     
-    variant postgresql96 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 description {Use PostgreSQL 9.6 libraries} {
+    variant postgresql96 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 postgresql10 description {Use PostgreSQL 9.6 libraries} {
         depends_lib-append      port:postgresql96
         
         configure.args-append   --with-pgsql=${prefix}/lib/postgresql96/bin \
                                 --with-pdo-pgsql=${prefix}/lib/postgresql96/bin
     }
+
+    variant postgresql10 conflicts postgresql82 postgresql83 postgresql84 postgresql90 postgresql91 postgresql92 postgresql93 postgresql94 postgresql95 postgresql96 description {Use PostgreSQL 10 libraries} {
+        depends_lib-append      port:postgresql10
+
+        configure.args-append   --with-pgsql=${prefix}/lib/postgresql10/bin \
+                                --with-pdo-pgsql=${prefix}/lib/postgresql10/bin
+    }
     
-    if {![variant_isset postgresql82] && ![variant_isset postgresql83] && ![variant_isset postgresql84] && ![variant_isset postgresql90] && ![variant_isset postgresql91] && ![variant_isset postgresql92] && ![variant_isset postgresql93] && ![variant_isset postgresql94] && ![variant_isset postgresql95] && ![variant_isset postgresql96]} {
-        default_variants +postgresql96
+    if {![variant_isset postgresql82] && ![variant_isset postgresql83] && ![variant_isset postgresql84] && ![variant_isset postgresql90] && ![variant_isset postgresql91] && ![variant_isset postgresql92] && ![variant_isset postgresql93] && ![variant_isset postgresql94] && ![variant_isset postgresql95] && ![variant_isset postgresql96] && ![variant_isset postgresql10]} {
+        default_variants +postgresql10
     }
 }
 
@@ -1370,18 +1391,6 @@ subport ${php}-xsl {
     configure.args-append   --with-xsl=${prefix}
     
     configure.cppflags-append   -I${prefix}/include/${php}/php/ext/dom
-}
-
-subport ${php}-zip {
-    categories-append       archivers
-    
-    description             PHP zip functions
-    
-    long_description        ${description}
-    
-    depends_lib-append      port:zlib
-    
-    configure.args-append   --with-zlib-dir=${prefix}
 }
 
 }

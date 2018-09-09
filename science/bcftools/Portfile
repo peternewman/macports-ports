@@ -3,7 +3,7 @@
 PortSystem              1.0
 PortGroup               github 1.0
 
-github.setup            samtools bcftools 1.7
+github.setup            samtools bcftools 1.9
 categories              science
 platforms               darwin
 maintainers             {ryandesign @ryandesign} openmaintainer
@@ -17,9 +17,9 @@ long_description        BCFtools implements utilities for variant calling (in \
                         BCF files. The program is intended to replace the \
                         Perl-based tools from vcftools.
 
-checksums               rmd160  b0f2b84c0bf617d533f47c27a1f50ab3002e874f \
-                        sha256  dd4f63d91b0dffb0f0ce88ac75c2387251930c8063f7799611265083f8d302d1 \
-                        size    3027891
+checksums               rmd160  59b9997aaa509ba84c41b7e78821f31eca8d90dc \
+                        sha256  6f36d0e6f16ec4acf88649fb1565d443acf0ba40f25a9afd87f14d14d13070c8 \
+                        size    3134355
 
 homepage                http://www.htslib.org/
 github.tarball_from     releases

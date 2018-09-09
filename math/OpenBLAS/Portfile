@@ -7,7 +7,7 @@ PortGroup           muniversal 1.0
 name                OpenBLAS
 categories          math science
 license             BSD
-maintainers         nicos {michaelld @michaelld} openmaintainer
+maintainers         {nicos @NicosPavlov} {michaelld @michaelld} openmaintainer
 description         OpenBLAS is an optimized BLAS library based on GotoBLAS2
 long_description    ${description}
 platforms           darwin
@@ -19,11 +19,11 @@ archive_sites
 subport OpenBLAS-devel {}
 if {[string first "-devel" $subport] > 0} {
 
-    github.setup    xianyi OpenBLAS 2c7392f07bb8023adbc7b85c049d16607ade77e1
-    version         20180304
-    checksums       rmd160 f9e54ea1068f766f1d9978364c8609b8187d837a \
-                    sha256 4c4e90f9707e97869a2cee6679868a786fe3191ea3e039a93350b2c6a8dda3ef \
-                    size   11760340
+    github.setup    xianyi OpenBLAS 9e2bb0c6417ade4a9cf4a5787e0eb9fd491e8fc3
+    version         20180830
+    checksums       rmd160 676b9f1d7823978e9155fbbec113cdc0708e5830\
+                    sha256 9a4785215d7402913250276399219f81a29b4ea36c7916c38c4ee8d660051ac7\
+                    size   11827127
 
     name            ${github.project}-devel
     conflicts       OpenBLAS
@@ -31,14 +31,14 @@ if {[string first "-devel" $subport] > 0} {
     patchfiles      patch-libnoarch.devel.diff \
                     patch-linkLib.devel.diff
 
-    livecheck.url   ${github.homepage}/commits/develop.atom
+    github.livecheck.branch develop
 
 } else {
 
-    github.setup    xianyi OpenBLAS 0.2.20 v
-    revision        1
-checksums           rmd160  259835e7fe94fa1d7cb861cbb579955ded7bb69b \
-                    sha256  2a9848fcfebdd8594a5252ea119e06cb8c1508528b87c781a20b44db0b1ba0ad
+    github.setup    xianyi OpenBLAS 0.3.3 v
+    checksums       rmd160 d8dad5c03057bd26874e78b3f216fe45e53995ca \
+                    sha256 4f1ac0376cfdc89cf415c772d3239614dba7b783170c37ecde8d0d766d8f7433 \
+                    size   11826312
 
     conflicts       OpenBLAS-devel
 
@@ -117,6 +117,9 @@ if {[variant_isset clang]} {
 
     # use selected +gcc* for Fortran only
     depends_build-append    port:gcc${GCC_VER_NO_DOT}
+    # add libgcc as a runtime dependency
+    depends_lib-append      port:libgcc
+
     configure.fc            ${prefix}/bin/gfortran-mp-${GCC_VER_DOT}
 
     if {[vercmp $xcodeversion 5.0] >= 0} {
@@ -217,6 +220,11 @@ destroot.args       "PREFIX=${prefix}"
 if {[variant_isset universal]} {
     merger-post-destroot {
         foreach arch ${universal_archs_to_use} {
+            if {${arch} ne ${build_arch}} {
+                # openblas.pc records the processor name, which is different for 32-bit and 64-bit architectures
+                # see https://github.com/xianyi/OpenBLAS/commit/eb9b021d3890429a41823dc3d90eb0d11c0a6d6d
+                delete ${destroot}-${arch}${prefix}/lib/pkgconfig/openblas.pc
+            }
             move ${destroot}-${arch}${prefix}/include/cblas.h \
                 ${destroot}-${arch}${prefix}/include/cblas_openblas.h
             #Correct library name

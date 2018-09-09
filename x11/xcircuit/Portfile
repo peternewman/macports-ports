@@ -4,7 +4,8 @@ PortSystem          1.0
 PortGroup           active_variants 1.1
 
 name                xcircuit
-version             3.9.72
+version             3.9.73
+revision            1
 set branch          [join [lrange [split ${version} .] 0 1] .]
 categories          x11 cad
 platforms           darwin
@@ -29,19 +30,20 @@ homepage            http://opencircuitdesign.com/xcircuit/
 master_sites        ${homepage}archive/
 extract.suffix      .tgz
 
-checksums           rmd160  abb7eb3ffb1bfcd2c515537d43f4ba240c6f1508 \
-                    sha256  9b8d1e2ff75db81da4f290d9c5d356c7dd749e05ce4cb3e9fcd91e284cb024df \
-                    size    1620798
+checksums           rmd160  0fa28f4689dbb2d53ae29c478428a776da411a5e \
+                    sha256  4f0e7c9630775a9624568ccd6e312941e2d6fa46a44f6012a99fde1bbd8249ce \
+                    size    1620922
 
-depends_build       path:bin/pkg-config:pkgconfig \
-                    port:autoconf \
-                    port:automake
+depends_build       port:autoconf \
+                    port:automake \
+                    port:pkgconfig
+
 depends_lib         path:lib/pkgconfig/cairo.pc:cairo \
                     port:ghostscript \
                     port:tk \
                     port:xpm
 
-# Currently, xcircuit crashes upon start if tk is build without +x11
+# Currently, xcircuit crashes upon start if tk is built without +x11
 require_active_variants tk x11 quartz
 
 use_autoreconf      yes

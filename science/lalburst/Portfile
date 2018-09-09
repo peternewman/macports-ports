@@ -4,7 +4,7 @@ PortSystem    1.0
 
 name          lalburst
 version       1.4.4
-revision      5
+revision      8
 
 description   LSC Algorithm Library - Burst
 long_description \
@@ -21,7 +21,8 @@ depends_lib   port:lal \
               port:metaio
 
 patch.pre_args -p2
-patchfiles    0001-lalburst-should-not-depend-on-Numpy-if-Python-is-not.patch
+patchfiles    0001-lalburst-should-not-depend-on-Numpy-if-Python-is-not.patch \
+              swig-deps.patch
 use_autoreconf yes
 
 ###############################################################################
@@ -67,7 +68,7 @@ test.run      yes
 test.target   check
 
 # Create subports for each supported Python version
-foreach v {27 34 35 36} {
+foreach v {27 35 36 37} {
   subport py${v}-${name} {
     set pythonversion     [string range ${v} 0 end-1].[string index ${v} end]
     set pythonhome \

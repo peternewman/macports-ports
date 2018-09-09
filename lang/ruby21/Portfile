@@ -5,10 +5,10 @@ PortGroup           select 1.0
 
 name                ruby21
 version             2.1.9
-revision            2
+revision            3
 
 categories          lang ruby
-maintainers         kimuraw openmaintainer
+maintainers         {kimuraw @kimuraw} openmaintainer
 platforms           darwin
 
 description         Powerful and clean object-oriented scripting language

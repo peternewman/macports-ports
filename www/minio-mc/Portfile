@@ -4,15 +4,18 @@ PortSystem          1.0
 PortGroup           github 1.0
 
 # UPDATE THESE IN SYNC!
-set relversion      2018-02-09T23:07:36Z
-set commit          3987f1405aa7a0faaff019cc3b55da4ded9ebbe5
+set version         2018-08-18T02-13-04Z
+set commit          073ed250fea2beec9b2c5534f9c71b5ebaae79df 
 
-github.setup        minio mc [string map {: -} ${relversion}] RELEASE.
+set relversion      [regsub {(T..)-(..)-(..Z)} $version {\1:\2:\3}]
+# This is not used for fetching, but is compiled into the executable
+
+github.setup        minio mc $version RELEASE.
 name                minio-mc
 revision            0
 
 categories          www
-maintainers         eborisch openmaintainer
+maintainers         {eborisch @eborisch} openmaintainer
 description         Provides cloud-enabled UNIX commands like ls, cat, cp, etc.
 long_description \
     ${description} It supports filesystems and Amazon S3 compatible cloud \
@@ -20,8 +23,9 @@ long_description \
 license             Apache-2
 
 checksums \
-    rmd160  2e090fe6d6e4624cc3330438f4b1489974e4a018 \
-    sha256  81159080688268199e0fe21aa83a8355784656a48eae660efd5b10172a5ef8d4
+    rmd160  e7b70db9d9417f08681115a70162c9769084935d \
+    sha256  8e18c49737c6688acbb16c8c6df9bf74e5848c8ef9f53e272be23b21a6b12f03 \
+    size    1720580
 
 set goproj          github.com/${github.author}/${github.project}
 

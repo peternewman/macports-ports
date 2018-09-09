@@ -1,6 +1,6 @@
 --- src/mkoctfile.in.cc.orig	2017-11-08 15:10:37.000000000 -0700
 +++ src/mkoctfile.in.cc	2017-11-08 16:16:44.000000000 -0700
-@@ -238,16 +238,16 @@
+@@ -298,16 +298,16 @@
    vars["FLIBS"] = get_variable ("FLIBS", %OCTAVE_CONF_FLIBS%);
  
    vars["OCTAVE_LINK_DEPS"] = get_variable ("OCTAVE_LINK_DEPS",

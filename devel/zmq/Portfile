@@ -8,7 +8,7 @@ categories          devel sysutils net
 platforms           darwin
 license             LGPL-3+
 
-maintainers         inconsistent.nl:merijn stromnov {michaelld @michaelld} openmaintainer
+maintainers         inconsistent.nl:merijn {stromnov @stromnov} {michaelld @michaelld} openmaintainer
 
 description         0MQ (ZeroMQ) lightweight messaging kernel
 
@@ -21,10 +21,11 @@ long_description    \
     protocols and more.
 
 if {${name} eq ${subport}} {
-    github.setup        zeromq libzmq 4.2.3 v
+    github.setup        zeromq libzmq 4.2.5 v
 
-    checksums           rmd160 fb34afb5d30a1b76d03f933b2607816126c9176e \
-                        sha256 57988a1142b50151b81d7b1580adb824b9244d9d01269f52ff2c5b886fe021a1
+    checksums           rmd160 de7e0d1e380991b55031a22c7b2fa482d650a0b4 \
+                        sha256 3a051a265e8b6a676e13e85179af96702c706491de248bc955f4384519faa2aa \
+                        size   714534
 
     conflicts           zmq-devel zmq22 zmq3
     configure.args-append --disable-libunwind --disable-cxx11
@@ -53,11 +54,11 @@ subport zmq22 {
 }
 
 subport zmq-devel {
-    github.setup        zeromq libzmq d2293da6e5a3719e9db27ce283055f09ca7af8e6
-    version             20180312
-    checksums           rmd160 ad12cf1d39d4f9e91e85088c55ae834454b12ec1 \
-                        sha256 585176d3f560ba52d5e9d4bf60c8dc8bbe7345f4a0bb33d461d799bbb0014a98 \
-                        size   707213
+    github.setup        zeromq libzmq 9c0bff2c9c92fdcb3e138ef09e69e1190a696c1f
+    version             20180901
+    checksums           rmd160 dc1ce0a19cd2816867de336558d6e5738e1a549c \
+                        sha256 a488901857aa400da575b2733ec25036562aff9cc0f4e54fd7376dd851426ca3 \
+                        size   769812
 
     conflicts           zmq zmq22 zmq3
     configure.args-append --disable-libunwind --disable-cxx11
@@ -85,3 +86,14 @@ configure.args-append --disable-silent-rules
 
 depends_build-append port:libtool port:pkgconfig
 build.args          LIBTOOL=${prefix}/bin/glibtool
+
+# special building for PPC/PPC64 for zmq and zmq-devel
+
+if {(${subport} eq "zmq" || ${subport} eq "zmq-devel") &&
+    (${build_arch} eq "ppc" || ${build_arch} eq "ppc64")} {
+
+    # force c++11
+    PortGroup cxx11 1.1
+
+    configure.args-replace --disable-cxx11 --enable-cxx11
+}

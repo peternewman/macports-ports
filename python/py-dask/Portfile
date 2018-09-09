@@ -4,16 +4,16 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-dask
-version             0.17.1
+version             0.19.1
 revision            0
 categories-append   devel
 platforms           darwin
 license             BSD
 supported_archs     noarch
 
-python.versions     27 34 35 36
+python.versions     27 34 35 36 37
 
-maintainers         stromnov openmaintainer
+maintainers         {stromnov @stromnov} openmaintainer
 
 description         Minimal task scheduling abstraction.
 
@@ -31,8 +31,9 @@ master_sites        pypi:[string index ${python.rootname} 0]/${python.rootname}
 
 distname            ${python.rootname}-${version}
 
-checksums           rmd160  e62428dd8c419e2e2f76e85cac13375a19b54004 \
-                    sha256  0a6aec8b3489419c97486afd46e30b63caafc642205726a884b7fe488906d359
+checksums           rmd160  6e501a8d72d5e2cf4e3f4a74707c01761d6322fb \
+                    sha256  aae1f237870c01773bca5a75289f10166b84e13b9e966d8431e945f1f1febb99 \
+                    size    2346571
 
 if {${name} ne ${subport}} {
     depends_build-append \

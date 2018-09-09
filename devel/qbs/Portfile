@@ -6,12 +6,12 @@ PortGroup           cxx11 1.1
 
 name                qbs
 
-version             1.10.0
+version             1.12.0
+revision            1
 categories          devel
 platforms           darwin
 license             LGPL-2.1
-maintainers         openmaintainer \
-                    {@jakepetroules qt.io:jake.petroules}
+maintainers         {@jobor qt.io:joerg.bornemann} openmaintainer
 description         Build tool that helps simplify the build process for developing projects across multiple platforms.
 long_description    Qbs is a tool that helps simplify the build process for developing projects across multiple platforms.
 
@@ -19,8 +19,9 @@ homepage            https://wiki.qt.io/Qbs
 distname            qbs-src-${version}
 master_sites        https://download.qt.io/official_releases/qbs/${version}/
 
-checksums           rmd160  e04bc49e9fbfe91a717b92c1bea64ce7bf2699bf \
-                    sha256  38afae3b697b96e07d53cfc64dd03533fddec052ecdc08d8e7779440c36c3ecd
+checksums           rmd160  ff268620365b957177882b0b489c49406c480a6a \
+                    sha256  5efeb2492f8ccf0e7a5ea106f748e1c536f964674025aecb22c1ee948e3e35d1 \
+                    size    4368992
 
 qt5.depends_component qtscript
 
@@ -28,6 +29,18 @@ configure.post_args QBS_INSTALL_PREFIX=${prefix} \
                     CONFIG+=qbs_disable_rpath \
                     CONFIG+=qbs_enable_project_file_updates \
                     qbs.pro
+
+# set DYLD_LIBRARY_PATH to avoid
+#    dyld: Library not loaded: ${prefix}/lib/libqbscore.1.dylib
+#      Referenced from: ${worksrcpath}/bin/qbs
+#      Reason: image not found
+# set TMPDIR to avoid
+#    SOFT ASSERT: job->state() == AbstractJob::StateRunning in api/project.cpp:153
+patchfiles-append patch-environment.diff
+
+# see https://bugreports.qt.io/browse/QBS-1370
+# see https://codereview.qt-project.org/#/c/234944/
+patchfiles-append patch-missing_header.diff
 
 livecheck.type      regex
 livecheck.url       https://download.qt.io/official_releases/qbs/

@@ -344,15 +344,15 @@ patchfiles-append patch-src_corelib_io_qsettings.cpp.diff
 
 patchfiles-append patch-src_gui_text_qfontengine_coretext.mm.diff
 
-# error out if trying to build on a new OSX version (> 10.12).
+# error out if trying to build on a new OSX version (> 10.14).
 
 platform darwin {
-    if {${MINOR} > 13} {
+    if {${MINOR} > 14} {
         # This project needs to be updated to build with clang++ against libc++
         depends_lib
         depends_run
         pre-fetch {
-            ui_error "$name does not currently build on Mac OS X later than 10.13 'High Sierra'."
+            ui_error "$name does not currently build on Mac OS X later than 10.14 'Mojave'."
             error "unsupported platform"
         }
     }
@@ -623,11 +623,6 @@ pre-configure {
     if {${MINOR} == 4} {
 
         configure.args-append -carbon
-
-        # required linking flags?
-
-        configure.ldflags-append -lcrypto -ldbus-1 -ljpeg -llcms \
-            -lssl -lz
 
     } elseif {${MINOR} == 5 &&
               [llength ${qt_arch_types}] == 1 &&
@@ -1172,6 +1167,8 @@ post-activate {
     ui_msg "NOTE: Qt database plugins for mysql55, postgresql91, and sqlite2 are NOT installed by this port\; they are installed by qt4-mac-*-plugin instead."
 }
 
-livecheck.type      regex
-livecheck.url       http://download.qt.io/official_releases/qt/${branch}/
-livecheck.regex     >(\[0-9.\]+)/<
+livecheck.type       none
+
+# livecheck.type      regex
+# livecheck.url       http://download.qt.io/official_releases/qt/${branch}/
+# livecheck.regex     >(\[0-9.\]+)/<

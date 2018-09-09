@@ -5,7 +5,7 @@ PortGroup       python 1.0
 
 name            py-tz
 set my_name     pytz
-version         2018.3
+version         2018.5
 categories-append     devel
 platforms       darwin
 supported_archs noarch
@@ -23,10 +23,11 @@ master_sites    pypi:1b/50/4cdc62fc0753595fc16c8f722a89740f487c6e5670c644eb89839
 distname        ${my_name}-${version}
 #use_zip         yes
 
-python.versions 26 27 33 34 35 36
+python.versions 27 34 35 36 37
 
-checksums       rmd160 17c8a1f8b6f13c355b347e97c2b0e82abe1f89df \
-                sha256 410bcd1d6409026fbaa65d9ed33bf6dd8b1e94a499e32168acfc7b332e4095c0
+checksums       rmd160  a5030124679cd95a35e3bb3b4a0ab830a4f62c12 \
+                sha256  ffb9ef1de172603304d9d2819af6f5ece76f2e85ec10692a524dd876e72bf277 \
+                size    318799
 
 post-destroot {
     if {${name} ne ${subport}} {

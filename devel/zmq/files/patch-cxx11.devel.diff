@@ -1,6 +1,6 @@
 --- configure.ac.orig
 +++ configure.ac
-@@ -55,8 +55,19 @@ ZMQ_ORIG_CXXFLAGS="${CXXFLAGS:-none}"
+@@ -57,8 +57,19 @@
  # Checks for programs.
  AC_PROG_CC
  AX_CHECK_COMPILE_FLAG([-std=gnu11], [CFLAGS+=" -std=gnu11"], [AC_PROG_CC_C99])
@@ -25,7 +25,7 @@ diff --git a/src/atomic_counter.hpp b/src/atomic_counter.hpp
 index 23a7c50..2fc2fe4 100644
 --- src/atomic_counter.hpp.orig
 +++ src/atomic_counter.hpp
-@@ -36,7 +36,7 @@
+@@ -37,7 +37,7 @@
  #define ZMQ_ATOMIC_COUNTER_MUTEX
  #elif defined ZMQ_HAVE_ATOMIC_INTRINSICS
  #define ZMQ_ATOMIC_COUNTER_INTRINSIC
@@ -36,7 +36,7 @@ index 23a7c50..2fc2fe4 100644
  #elif (defined __i386__ || defined __x86_64__) && defined __GNUC__
 --- src/atomic_ptr.hpp.orig
 +++ src/atomic_ptr.hpp
-@@ -34,7 +34,7 @@
+@@ -36,7 +36,7 @@
  #define ZMQ_ATOMIC_PTR_MUTEX
  #elif defined ZMQ_HAVE_ATOMIC_INTRINSICS
  #define ZMQ_ATOMIC_PTR_INTRINSIC
@@ -47,7 +47,7 @@ index 23a7c50..2fc2fe4 100644
  #elif (defined __i386__ || defined __x86_64__) && defined __GNUC__
 --- src/blob.hpp.orig
 +++ src/blob.hpp
-@@ -34,7 +34,7 @@
+@@ -37,7 +37,7 @@
  #include <string.h>
  #include <algorithm>
  
@@ -58,7 +58,7 @@ index 23a7c50..2fc2fe4 100644
  #define ZMQ_PUSH_OR_EMPLACE_BACK emplace_back
 --- src/condition_variable.hpp.orig
 +++ src/condition_variable.hpp
-@@ -46,7 +46,7 @@
+@@ -45,7 +45,7 @@
  #define _SUPPORT_CONDITION_VARIABLE 0
  #endif
  #else
